@@ -10,7 +10,7 @@ def home(request):
 
 
 def runMLScript(request):
-    script_path = os.path.join('Backend', 'Text_Preprocessing', 'example_script.py')
+    script_path = os.path.join('WebApplication', 'Text_Preprocessing', 'ml_code.py')
 
     try:
         result = subprocess.run(['python', script_path], capture_output=True, text=True)
