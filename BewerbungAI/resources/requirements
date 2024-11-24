@@ -24,6 +24,9 @@ Pycharm Code commands
 - python manage.py showmigrations
 - python manage.py createsuperuser
 
+React Code commands
+-npm run build (run after the change in the frontend to see it on the server)
+
 
 pip install <library>
 djangorestframework API calls
