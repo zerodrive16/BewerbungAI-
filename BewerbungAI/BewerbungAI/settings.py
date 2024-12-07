@@ -38,7 +38,29 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'WebApplication',
+    'mozilla_django_oidc',
 ]
+
+# URL of your Keycloak server
+OIDC_RP_SIGNAL = False  # Disable signals if you don't need them
+OIDC_OP_AUTHORIZATION_ENDPOINT = 'http://localhost:8080/realms/myrealm/protocol/openid-connect/auth'
+OIDC_OP_TOKEN_ENDPOINT = 'http://localhost:8080/realms/myrealm/protocol/openid-connect/token'
+OIDC_OP_USERINFO_ENDPOINT = 'http://localhost:8080/realms/myrealm/protocol/openid-connect/userinfo'
+OIDC_RP_CLIENT_ID = 'django-backend'
+OIDC_RP_CLIENT_SECRET = 'your-client-secret'
+OIDC_RP_REDIRECT_URI = 'http://localhost:8000/oidc/callback/'
+OIDC_RP_POST_LOGOUT_REDIRECT_URI = 'http://localhost:8000/logout/'
+
+AUTHENTICATION_BACKENDS = [
+    'mozilla_django_oidc.auth.OIDCAuthenticationBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+
+LOGIN_URL = '/oidc/login/'  # URL for login redirect
+LOGIN_REDIRECT_URL = '/'  # Redirect after login
+
+LOGOUT_REDIRECT_URL = '/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -116,7 +138,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 # settings.py
 
@@ -126,7 +148,7 @@ STATICFILES_DIRS = [
 ]
 
 # If you're using collectstatic (for production), you can specify the folder where static files are stored
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')  # Folder where Django will collect static files
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Folder where Django will collect static files
 
 
 # Default primary key field type

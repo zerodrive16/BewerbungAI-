@@ -25,8 +25,11 @@ Pycharm Code commands
 - python manage.py createsuperuser
 
 React Code commands
--npm run build (run after the change in the frontend to see it on the server)
+- npm install react-scripts
+- npm run build (run after the change in the frontend to see it on the server)
 
+Font Awesome Docs
+- <i class="fa-solid fa-user"></i> (in order to add the icon to the website)
 
 pip install <library>
 djangorestframework API calls
@@ -35,3 +38,8 @@ Pandas              Data manipulation
 nltk                Natural language processing
 tensorflow          Machine learning and deep learning
 scikit-learn        Machine learning tools
+
+Keyclock
+- sudo snap install docker
+- pip install mozilla-django-oidc
+- npm install keycloak-js

@@ -16,9 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from mozilla_django_oidc.urls import urlpatterns as oidc_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('WebApplication.urls')),
-
 ]

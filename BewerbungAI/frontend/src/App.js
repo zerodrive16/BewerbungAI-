@@ -1,33 +1,21 @@
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Home from "./components/Home.js";
+import AboutUs from "./components/AboutUs.js";
+import Resume from "./components/Resume.js";
+import Application from "./components/Application.js";
 
-const App = () => {
-  const [output, setOutput] = useState(null);
-  const [error, setError] = useState(null);
-
-  const handleRunScript = async () => {
-    try {
-      // Make an API call to the backend
-      const response = await fetch('/backend');
-      const data = await response.json();
-
-      // Check for error in the response
-      if (data.error) {
-        setError(data.error);
-      } else {
-        setOutput(data.output);
-      }
-    } catch (err) {
-      setError('Error occurred while fetching data');
-    }
-  };
-
+export default function App(){
   return (
-    <div>
-      <button onClick={handleRunScript}>Run Script</button>
-      {error && <div style={{ color: 'red' }}>Error: {error}</div>}
-      {output && <div>Output: {output}</div>}
-    </div>
+    <Router>
+      <div className="content">
+        <Routes>
+          <Route path="/" element={<Home />}  />
+          <Route path="/resume" element={<Resume />}  />
+          <Route path="/application" element={<Application />} />
+          <Route path="/aboutUs" element={<AboutUs />} />
+        </Routes>
+      </div>
+    </Router>
   );
-};
-
-export default App;
+}

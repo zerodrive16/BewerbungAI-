@@ -1,0 +1,9 @@
+.home-header{
+      background-image: url('../../public/img/home.png'); /* Use a local image */
+      background-size: cover;
+}
+.content-header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

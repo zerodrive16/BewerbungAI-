@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 from . import views
 from django.views.generic import TemplateView
 
@@ -11,5 +11,5 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('backend', views.helloWorldScript, name='helloWorldScript'),
     #path('backend', views.runMLScript, name='runMLScript'),
-    path('', TemplateView.as_view(template_name='index.html'))
+    re_path(r'^.*$', TemplateView.as_view(template_name='index.html'))
 ]
