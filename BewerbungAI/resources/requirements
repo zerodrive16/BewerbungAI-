@@ -41,5 +41,5 @@ scikit-learn        Machine learning tools
 
 Keyclock
 - sudo snap install docker
-- pip install mozilla-django-oidc
+- pip install mozilla-django-oidc?
 - npm install keycloak-js
