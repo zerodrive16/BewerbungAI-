@@ -18,7 +18,7 @@ function Home(){
     const items = [
         {
             title: "1. Fill out the form.",
-            img: "/frontend/build/static/img/form.png",
+            img: "/media/form.png",
         }
     ];
     return (
