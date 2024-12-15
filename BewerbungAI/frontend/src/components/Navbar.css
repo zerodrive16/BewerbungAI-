@@ -1,8 +1,24 @@
-.navbar_link{
-    text-decoration: none;
-
+.navbar{
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(82, 82, 82, 0.7);
 }
 
-.navbar_item{
-    list-style-type: none;
+.navbar-brand{
+    display: flex;
+    align-items: center;
+}
+
+.nav-link,  .navbar-brand{
+    color: #fff;
+    padding:0;
+}
+
+.nav-link:hover, .nav-link:active,
+.nav-link:focus, .nav-link:target{
+   color: #b0b0b0;
+}
+.header-nav{
+    padding: 0;
 }

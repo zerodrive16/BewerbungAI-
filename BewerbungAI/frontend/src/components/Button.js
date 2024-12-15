@@ -6,7 +6,7 @@ function Button({ children, style, colSize, colNumber }){
   const buttonClass = `btn ${colSize}-${colNumber}`;
   /*const buttonClass = `btn ${colSm ? `col-sm-${colSm}` : ''} ${colMd ? `col-md-${colMd}` : ''} ${colLg ? `col-lg-${colLg}` : ''}`;*/
     return (
-        <button type="button" className={buttonClass} style={style}>
+        <button type="button" className={`button ${buttonClass}`} style={style}>
             {children}
         </button>
     );

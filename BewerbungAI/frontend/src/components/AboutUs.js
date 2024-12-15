@@ -1,7 +1,18 @@
 import React from 'react';
+import Navbar from "./Navbar.js";
+import Button from "./Button.js";
+import Footer from "./Footer.js";
 
-function AboutUs() {
-  return <h1>About us</h1>;
+
+function AboutUs(){
+  return (
+    <div>
+      <div className="header d-flex flex-column justify-content-center">
+        <Navbar />
+      </div>
+        <Footer />
+    </div>
+  );
 }
 
 export default AboutUs;

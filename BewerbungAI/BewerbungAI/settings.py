@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'WebApplication',
     'mozilla_django_oidc',
+#    'corsheaders',
 ]
 
 # URL of your Keycloak server
@@ -70,8 +71,19 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+#    'corsheaders.middleware.CorsMiddleware',
+]
+"""
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # Development
+    "http://<your-django-server-domain>",  # Production
 ]
 
+KEYCLOAK_SERVER_URL = 'http://localhost:8080/auth'  # Keycloak server URL
+KEYCLOAK_REALM = 'react-auth'
+KEYCLOAK_CLIENT_ID = 'authentication'
+KEYCLOAK_PUBLIC_KEY = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwa1G6MNO4pUoWqtF4BTCKgd2zfOqyux+1HICEv+IOLZPeg+JGkycOH90hYIHB/71rAYrt6FQPlOuls75OwwSrk6J1Kfg9Uc5lzW2tJzmVwDiM/MLM7aoWb0OrWtwNp7n1PwYjQ2IXfj4+1POWwcyrGk7lwHs8+sz//1pgB+MjkpJiGmQwJm0caN+0/oe8utd2epf459nYVSnG7Cm1FQfHatrl5q2cK6tkKWBlj6hDKF6ubmf+vcCB+vwLMCtQW6ltT03neeIC2Mw5+tYX/9XJa7XL3u1gHuccjtQaZP+JQO4E72+CAuWdRKaXEJbZrc9L4jNL6Dh6neX6E695V/oFwIDAQAB'
+"""
 ROOT_URLCONF = 'BewerbungAI.urls'
 
 TEMPLATES = [
@@ -149,8 +161,8 @@ STATICFILES_DIRS = [
 
 # If you're using collectstatic (for production), you can specify the folder where static files are stored
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Folder where Django will collect static files
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/img/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'img')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
