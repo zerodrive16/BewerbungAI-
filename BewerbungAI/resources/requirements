@@ -25,6 +25,7 @@ Pycharm Code commands
 - python manage.py createsuperuser
 
 React Code commands
+- npm install axios (needed in components folder)
 - npm install react-scripts
 - npm run build (run after the change in the frontend to see it on the server)
 

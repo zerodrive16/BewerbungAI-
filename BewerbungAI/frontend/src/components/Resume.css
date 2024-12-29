@@ -1,0 +1,24 @@
+.api{
+    color: #000;
+}
+
+.pers_info_title{
+    display: flex;
+    justify-content: center;
+    padding-top: 2rem;
+}
+.pers_info{
+    display: flex;
+    flex-direction: column;
+}
+.pers_info_input{
+    display: flex;
+    justify-content: center;
+}
+
+.pers_info_col{
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

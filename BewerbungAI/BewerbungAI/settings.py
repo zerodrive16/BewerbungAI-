@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'WebApplication',
     'mozilla_django_oidc',
-#    'corsheaders',
+    'corsheaders',
 ]
 
 # URL of your Keycloak server
@@ -71,14 +71,18 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-#    'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+
+]
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "https://127.0.0.1:3000",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
 ]
 """
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # Development
-    "http://<your-django-server-domain>",  # Production
-]
-
 KEYCLOAK_SERVER_URL = 'http://localhost:8080/auth'  # Keycloak server URL
 KEYCLOAK_REALM = 'react-auth'
 KEYCLOAK_CLIENT_ID = 'authentication'
@@ -146,7 +150,9 @@ USE_I18N = True
 
 USE_TZ = True
 
-
+CSRF_COOKIE_NAME = 'csrftoken'
+CSRF_COOKIE_SECURE = True  # Optional, depends on your setup
+CSRF_COOKIE_HTTPONLY = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 

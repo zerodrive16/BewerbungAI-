@@ -23,7 +23,7 @@ return (
             a professional document – fast, personalized,
             and free.
           </p>
-          <Button className="col-3">
+          <Button className="col-3" type="button">
             <Link to="/resume" className="header-link no-decoration">Get started</Link>
           </Button>
         </div>
