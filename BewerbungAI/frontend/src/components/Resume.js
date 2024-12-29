@@ -188,9 +188,11 @@ function Resume() {
             />
           </div>
         </div>
-        <Button className="col-3" type="submit" >
-          Submit
-        </Button>
+        <div className="pers_info_button">
+          <Button colSize="col" colNumber="2" type="submit" style={{ border: "1px solid #525252" }}>
+            Submit
+          </Button>
+        </div>
       </form>
       <Footer />
     </div>

@@ -17,8 +17,14 @@
 }
 
 .pers_info_col{
-    padding: 2rem;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.pers_info_button{
+    display:flex;
+    justify-content: end;
+    margin: 0 2rem 2rem 0;
 }
