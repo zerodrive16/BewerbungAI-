@@ -14,8 +14,8 @@ from rest_framework.response import Response
 
 # Create your views here.
 
-stored_data = {}
-
+resume_data = {}
+application_data = {}
 
 def home(request):
     return render(request, 'index.html')
@@ -62,8 +62,8 @@ def get_csrf_token(request):
     return JsonResponse({'csrfToken': csrf_token})
 
 
-def application_api(request):
-    global stored_data
+def resume_api(request):
+    global resume_data
 
     if request.method == 'POST':
         try:
@@ -84,7 +84,7 @@ def application_api(request):
             languages = value.get('languages', 'N/A')
             interests = value.get('interests', 'N/A')
 
-            stored_data = {
+            resume_data = {
                 'name': name,
                 'surname': surname,
                 'birthday': birthday,
@@ -99,14 +99,42 @@ def application_api(request):
                 'languages': languages,
                 'interests': interests,
             }
-            print(stored_data)
-            return JsonResponse({'message': 'POST request received', 'data': stored_data}, status=200)
+            print(resume_data)
+            return JsonResponse({'message': 'POST request received', 'data': resume_data}, status=200)
         except Exception as e:
             return JsonResponse({'error': 'Invalid data', 'details': str(e)}, status=400)
 
     elif request.method == 'GET':
-        if stored_data:
-            return JsonResponse({'message': 'GET request received', 'data': stored_data}, status=200)
+        if resume_data:
+            return JsonResponse({'message': 'GET request received', 'data': resume_data}, status=200)
+        else:
+            return JsonResponse({'message': 'No data available'}, status=200)
+
+    else:
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+
+def application_api(request):
+    global application_data
+
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body.decode('utf-8'))
+            print(data)
+            value = data.get('value', 'N/A')
+            job = value.get('job', 'N/A')
+
+            application_data = {
+                'job': job
+            }
+            print(application_data)
+            return JsonResponse({'message': 'POST request received', 'data': application_data}, status=200)
+        except Exception as e:
+            return JsonResponse({'error': 'Invalid data', 'details': str(e)}, status=400)
+
+    elif request.method == 'GET':
+        if application_data:
+            return JsonResponse({'message': 'GET request received', 'data': application_data}, status=200)
         else:
             return JsonResponse({'message': 'No data available'}, status=200)
 

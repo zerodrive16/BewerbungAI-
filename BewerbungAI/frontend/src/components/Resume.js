@@ -59,7 +59,7 @@ function Resume() {
       const response = await fetch('resume/api', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'resume/json',
           'X-CSRFToken': csrfToken
         },
         body: JSON.stringify({ value: inputValue })
