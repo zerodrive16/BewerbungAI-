@@ -1,0 +1,31 @@
+.job_info_title{
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.job_info{
+    display:flex;
+    flex-direction:column;
+}
+
+.job_info_button{
+    display: flex;
+    justify-content: end;
+}
+
+.job_info_input{
+    display: flex;
+    justify-content: center;
+}
+
+.job_info_content{
+    padding: 5px;
+    margin: 1rem;
+    border-radius: 4px;
+    border: 1px solid #525252;
+    resize: none;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    min-height: 15rem;
+}

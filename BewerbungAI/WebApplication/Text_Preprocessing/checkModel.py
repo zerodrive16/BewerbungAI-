@@ -1,9 +1,31 @@
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
 import os
+import nltk
+
+nltk.download('punkt')
+
+
+# Function to truncate text to the nearest sentence within the word limit
+def truncate_to_nearest_sentence(text, word_limit):
+    # Split the text into sentences
+    sentences = nltk.sent_tokenize(text)
+
+    truncated_text = ""
+    word_count = 0
+
+    # Add sentences until the word limit is reached
+    for sentence in sentences:
+        sentence_word_count = len(sentence.split())
+        if word_count + sentence_word_count > word_limit:
+            break
+        truncated_text += sentence + " "
+        word_count += sentence_word_count
+
+    return truncated_text.strip()
 
 
 # Function to generate text with the fine-tuned model
-def generate_text(model, tokenizer, prompt, max_length=500):
+def generate_text(model, tokenizer, prompt, max_words=200):
     # Encode the prompt text
     inputs = tokenizer(prompt, return_tensors='pt')
 
@@ -14,7 +36,8 @@ def generate_text(model, tokenizer, prompt, max_length=500):
     outputs = model.generate(
         input_ids,
         attention_mask=attention_mask,
-        max_length=max_length,
+        max_new_tokens=400,
+        do_sample=True,
         num_return_sequences=1,
         no_repeat_ngram_size=2,
         temperature=0.7,
@@ -24,7 +47,10 @@ def generate_text(model, tokenizer, prompt, max_length=500):
 
     # Decode the generated output to text
     generated_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
-    return generated_text
+
+    # Truncate the text to the nearest sentence within the word limit
+    truncated_text = truncate_to_nearest_sentence(generated_text, max_words)
+    return truncated_text
 
 
 # Load the fine-tuned model and tokenizer
@@ -36,8 +62,9 @@ tokenizer = GPT2Tokenizer.from_pretrained(trained_file)
 tokenizer.pad_token = tokenizer.eos_token
 
 # Example test prompt
-prompt = ("Write me a professional job application letter in the field of SAP Consulting with around 50 words.")
+prompt = (
+    "Write me a professional job application letter for the person Stefan Nguyen and he studied in University of Applied Sciences about Webdevelopment")
 
 # Generate text based on the prompt
-generated_text = generate_text(model, tokenizer, prompt)
+generated_text = generate_text(model, tokenizer, prompt, max_words=200)
 print("Generated Text:\n", generated_text)

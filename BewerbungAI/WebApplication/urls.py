@@ -1,7 +1,18 @@
-from django.urls import path
+from django.urls import path, re_path
 from . import views
+from django.views.generic import TemplateView
 
+"""
+Functions home and runMLScript(staying after the view.)
+manage the output and if needed(function runMLScript) add it in the html.
+
+"""
 urlpatterns = [
     path('', views.home, name='home'),
-    path('backend', views.runMLScript, name='runMLScript')
+    path('get-csrf-token', views.get_csrf_token, name='get_csrf_token'),
+    path('backend', views.hello_world_script, name='helloWorldScript'),
+    #path('backend', views.runMLScript, name='runMLScript'),
+    path('resume/api', views.resume_api, name='resume_api'),
+    path('application/api', views.application_api, name='application_api'),
+    re_path(r'^.*$', TemplateView.as_view(template_name='index.html')),
 ]

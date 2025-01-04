@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -38,7 +38,30 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'WebApplication',
+    'mozilla_django_oidc',
+    'corsheaders',
 ]
+
+# URL of your Keycloak server
+OIDC_RP_SIGNAL = False  # Disable signals if you don't need them
+OIDC_OP_AUTHORIZATION_ENDPOINT = 'http://localhost:8080/realms/myrealm/protocol/openid-connect/auth'
+OIDC_OP_TOKEN_ENDPOINT = 'http://localhost:8080/realms/myrealm/protocol/openid-connect/token'
+OIDC_OP_USERINFO_ENDPOINT = 'http://localhost:8080/realms/myrealm/protocol/openid-connect/userinfo'
+OIDC_RP_CLIENT_ID = 'django-backend'
+OIDC_RP_CLIENT_SECRET = 'your-client-secret'
+OIDC_RP_REDIRECT_URI = 'http://localhost:8000/oidc/callback/'
+OIDC_RP_POST_LOGOUT_REDIRECT_URI = 'http://localhost:8000/logout/'
+
+AUTHENTICATION_BACKENDS = [
+    'mozilla_django_oidc.auth.OIDCAuthenticationBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+
+LOGIN_URL = '/oidc/login/'  # URL for login redirect
+LOGIN_REDIRECT_URL = '/'  # Redirect after login
+
+LOGOUT_REDIRECT_URL = '/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -48,14 +71,29 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
+    'corsheaders.middleware.CorsMiddleware',
 
+]
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "https://127.0.0.1:3000",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+]
+"""
+KEYCLOAK_SERVER_URL = 'http://localhost:8080/auth'  # Keycloak server URL
+KEYCLOAK_REALM = 'react-auth'
+KEYCLOAK_CLIENT_ID = 'authentication'
+KEYCLOAK_PUBLIC_KEY = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwa1G6MNO4pUoWqtF4BTCKgd2zfOqyux+1HICEv+IOLZPeg+JGkycOH90hYIHB/71rAYrt6FQPlOuls75OwwSrk6J1Kfg9Uc5lzW2tJzmVwDiM/MLM7aoWb0OrWtwNp7n1PwYjQ2IXfj4+1POWwcyrGk7lwHs8+sz//1pgB+MjkpJiGmQwJm0caN+0/oe8utd2epf459nYVSnG7Cm1FQfHatrl5q2cK6tkKWBlj6hDKF6ubmf+vcCB+vwLMCtQW6ltT03neeIC2Mw5+tYX/9XJa7XL3u1gHuccjtQaZP+JQO4E72+CAuWdRKaXEJbZrc9L4jNL6Dh6neX6E695V/oFwIDAQAB'
+"""
 ROOT_URLCONF = 'BewerbungAI.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'frontend/build')],  # Add React build directory
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -112,13 +150,28 @@ USE_I18N = True
 
 USE_TZ = True
 
-
+CSRF_COOKIE_NAME = 'csrftoken'
+CSRF_COOKIE_SECURE = True  # Optional, depends on your setup
+CSRF_COOKIE_HTTPONLY = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+
+# settings.py
+
+# This is where your static files will be collected from the frontend (React build)
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'frontend/build/static'),  # Path to React's static folder
+]
+
+# If you're using collectstatic (for production), you can specify the folder where static files are stored
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Folder where Django will collect static files
+MEDIA_URL = '/img/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'img')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEBUG = True
