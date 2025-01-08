@@ -39,24 +39,6 @@ def runMLScript(request):
     return JsonResponse(context)
 
 
-def hello_world_script(request):
-    script_path = os.path.join('WebApplication', 'Text_Preprocessing', 'hello_world.py')
-
-    try:
-        result = subprocess.run(['python', script_path], capture_output=True, text=True)
-        output = result.stdout
-        error = result.stderr
-    except Exception as e:
-        output = f"Error occurred: {str(e)}"
-        error = None
-    print(f"Output: {output}, Error: {error}")
-    context = {
-        'output': output,
-        'error': error
-    }
-    return JsonResponse(context)
-
-
 def get_csrf_token(request):
     csrf_token = get_token(request)
     return JsonResponse({'csrfToken': csrf_token})
