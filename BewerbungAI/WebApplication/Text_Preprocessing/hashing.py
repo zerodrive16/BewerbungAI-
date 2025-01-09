@@ -23,6 +23,7 @@ def hashing(userInfo: str) -> str:
     # Return the hashed info as a string
     return hashedInfo.decode('utf-8')
 
+
 def verifyHash(userInfo: str, hashedInfo: str) -> bool:
     """
     Verifies if the user information matches the hashed value.
@@ -36,8 +37,9 @@ def verifyHash(userInfo: str, hashedInfo: str) -> bool:
     """
     return bcrypt.checkpw(userInfo.encode('utf-8'), hashedInfo.encode('utf-8'))
 
+
 # Example usage
-if name == "main":
+if __name__ == "__main__":
 
     # hashing
     user_info = "test info"

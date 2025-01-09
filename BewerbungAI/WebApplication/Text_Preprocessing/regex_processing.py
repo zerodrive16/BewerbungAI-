@@ -2,8 +2,11 @@ import re
 
 
 def performRegex(text):
-    # Remove emojis and non-printable characters
-    cleaned_comment = re.sub(r'[^\x00-\x7F]+', '', text)
+    if not isinstance(text, str):
+        text = str(text)
+
+    # Remove emojis and non-printable characters / Unicode
+    cleaned_comment = re.sub(r'[^\x20-\x7E]', '', text)
     # Remove special characters, keeping only letters and numbers (', !, ., ?, +, -, and ,)
     cleaned_comment = re.sub(r'[^a-zA-Z0-9\s\'!,\.\?\+\-]', '', cleaned_comment)
     # Remove extra spaces

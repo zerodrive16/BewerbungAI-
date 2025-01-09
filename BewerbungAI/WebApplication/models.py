@@ -4,15 +4,35 @@ from django.db import models
 
 
 class Data(models.Model):
+    # Personal Information
     id = models.IntegerField(primary_key=True)
-    idJobApplication = models.IntegerField()
+
     surname = models.CharField(max_length=50)
     lastname = models.CharField(max_length=50)
-    personId = models.IntegerField()
+    birthday = models.DateField()
+    address = models.CharField(max_length=50)
+    city = models.CharField(max_length=50)
+    zipcode = models.CharField(max_length=25)
+    phone = models.CharField(max_length=17)
+    email = models.EmailField()
+    date = models.DateField()
+    experience = models.TextField()
+    education = models.TextField()
+    skills = models.TextField()
+    interests = models.TextField()
+
+    # Job Description Information
+    companyname = models.CharField(max_length=25)
+    companyaddress = models.CharField(max_length=50)
+    companycity = models.CharField(max_length=50)
+    companyzipcode = models.CharField(max_length=25)
+    commpanystate = models.CharField(max_length=50)
+    jobFieldName = models.CharField(max_length=50)
+    jobFieldContent = models.TextField()
+
+    # Generated JobApplication letter
     jobApplicationId = models.IntegerField()
     jobApplicationContent = models.TextField()
-    jobFieldName = models.CharField(max_length=100)
-    jobFieldContent = models.TextField()
 
     def __str__(self):
         return self.jobFieldName
