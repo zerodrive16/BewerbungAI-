@@ -1,5 +1,6 @@
 from regex_processing import performRegex
 from spacy_summarizer import textSummarizationJobDescription, textSummarizationPersonalInformation
+from openai_request import openAIRequest
 
 
 # Information about the Job Description here
@@ -54,16 +55,16 @@ personalInformation = {
     "skills": "Programming in Python, Java, and SQL. Strong problem-solving and analytical abilities.",
     "interests": "Hiking, photography, and playing chess."
 }
-
+'''
 # Performing Preprocessing for JobDescription
 regex_jobDescription = performRegex(jobDescription)
 print(regex_jobDescription)
 spacy_jobDescription = textSummarizationJobDescription(regex_jobDescription)
 
 print(spacy_jobDescription)
-
-
 '''
+
+
 # Performing Preprocessing for Personal Information
 regex_personalInformation = {key: performRegex(value) if isinstance(value, str) else value for key, value in personalInformation.items()}
 print("Processed Personal Information:", regex_personalInformation)
@@ -74,7 +75,10 @@ summarized_fields = {}
 for field in fields_to_summarize:
     summarized_fields[field] = textSummarizationPersonalInformation(regex_personalInformation[field])
 
+
 # Display summarized fields
 for field, summary in summarized_fields.items():
     print(f"Summary of {field.capitalize()}:\n{summary}\n")
-'''
+
+
+openAIOutput = openAIRequest()
