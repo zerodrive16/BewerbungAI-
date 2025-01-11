@@ -1,8 +1,9 @@
 from regex_processing import performRegex
-from spacy_summarizer import process_job_description
+from spacy_summarizer import textSummarizationJobDescription, textSummarizationPersonalInformation
 
 
-text_example = [
+# Information about the Job Description here
+jobDescription = [
     """
     Job Title: Senior Developer (C++, Python, JavaScript) ⚙️🚀
 
@@ -37,10 +38,43 @@ text_example = [
     """
 ]
 
-processed_text = performRegex(text_example)
-print(processed_text)
-res = process_job_description(processed_text)
+# Information about the person here
+personalInformation = {
+    "surname": "Max",
+    "lastname": "Musterman",
+    "birthday": "19.9.1999",
+    "address": "Musterman Straße 2a",
+    "city": "Musterstadt",
+    "zipcode": "12345",
+    "phone": "+49 123 4567890",
+    "email": "max.musterman@example.com",
+    "date": "10.01.2025",
+    "experience": "Worked as a software developer at TechCorp for 3 years. Interned as a data analyst at DataInc.",
+    "education": "Bachelor’s Degree in Computer Science from Muster University, graduated in 2021.",
+    "skills": "Programming in Python, Java, and SQL. Strong problem-solving and analytical abilities.",
+    "interests": "Hiking, photography, and playing chess."
+}
 
-print("Entities:", res["Entities"])
-print("Summary:", res["Summary"])
-print("Keywords:", res["Keywords"])
+# Performing Preprocessing for JobDescription
+regex_jobDescription = performRegex(jobDescription)
+print(regex_jobDescription)
+spacy_jobDescription = textSummarizationJobDescription(regex_jobDescription)
+
+print(spacy_jobDescription)
+
+
+'''
+# Performing Preprocessing for Personal Information
+regex_personalInformation = {key: performRegex(value) if isinstance(value, str) else value for key, value in personalInformation.items()}
+print("Processed Personal Information:", regex_personalInformation)
+
+# Summarize specific fields
+fields_to_summarize = ["experience", "education", "skills", "interests"]
+summarized_fields = {}
+for field in fields_to_summarize:
+    summarized_fields[field] = textSummarizationPersonalInformation(regex_personalInformation[field])
+
+# Display summarized fields
+for field, summary in summarized_fields.items():
+    print(f"Summary of {field.capitalize()}:\n{summary}\n")
+'''

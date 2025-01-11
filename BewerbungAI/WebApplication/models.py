@@ -4,9 +4,9 @@ from django.db import models
 
 
 class Data(models.Model):
-    # Personal Information
     id = models.IntegerField(primary_key=True)
 
+    # Personal Information
     surname = models.CharField(max_length=50)
     lastname = models.CharField(max_length=50)
     birthday = models.DateField()
