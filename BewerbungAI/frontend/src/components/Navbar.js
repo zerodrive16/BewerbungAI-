@@ -18,11 +18,7 @@ function Navbar(){
               </li>
               <li className="nav-item">
                  <Link to="/resume" className="nav-link">
-                 Resume</Link>
-              </li>
-              <li className="nav-item">
-                 <Link to="/application" className="nav-link">
-                 Application Letter</Link>
+                 Personal Information</Link>
               </li>
               <li className="nav-item">
                  <Link to="/aboutUs" className="nav-link">

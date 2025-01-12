@@ -4,9 +4,12 @@ import Button from "./Button.js";
 import InputForm from "./InputForm.js";
 import Footer from "./Footer.js";
 import "./Application.css";
+import { useNavigate } from "react-router";
+
 
 function Application(){
-const [inputValue, setInputValue] = useState({
+  const navigate = useNavigate();
+  const [inputValue, setInputValue] = useState({
       job: ""
     });
 
@@ -53,6 +56,7 @@ const [inputValue, setInputValue] = useState({
       }
 
       const data = await response.json();
+      navigate('/result');
       console.log(data); // Process the response data
     } catch (err) {
       console.error('Error:', err);

@@ -33,13 +33,10 @@ function Download() {
           'X-CSRFToken': csrfToken
         },
       });
-      console.log("waiting")
       if (response.ok) {
-        console.log(response)
         const data = await response.json();
-        alert(data.message);
+        console.log(data.message);
       } else {
-        console.log(response)
         const errorData = await response.json();
         alert(`Error: ${errorData.error}`);
       }
