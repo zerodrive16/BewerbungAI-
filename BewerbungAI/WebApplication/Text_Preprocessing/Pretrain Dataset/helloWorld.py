@@ -4,5 +4,5 @@ script_dir = os.path.dirname(script_path)
 
 print("Script Path:", script_path)
 
-with open("./frontend/public/text.txt", "w") as file:
-    file.write("Hello Worl")
+with open("./frontend/public/static/media/text.txt", "w") as file:
+    file.write("Hello World!")
