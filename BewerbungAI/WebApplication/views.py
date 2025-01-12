@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.middleware.csrf import get_token
+from .models import Data
 from django.views.decorators.http import require_POST
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -20,6 +21,11 @@ application_data = {}
 
 def home(request):
     return render(request, 'index.html')
+
+
+def dataset():
+    data = list(Data.objects.all())
+    return JsonResponse(data, safe=False)
 
 
 def get_csrf_token(request):
