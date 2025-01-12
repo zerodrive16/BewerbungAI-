@@ -5,7 +5,7 @@ class Data(models.Model):
 
     # Personal Information
                                                         # Frontend Bedingungen in Eingabefelder (Alle müssen Pflichtfelder sein)
-    surname = models.CharField(max_length=20)           # frontend sollte max. 20 char haben
+    firstname = models.CharField(max_length=20)           # frontend sollte max. 20 char haben
     lastname = models.CharField(max_length=20)          # frontend sollte max. 20 char haben
     birthday = models.DateField()                       # frontend sollte nur Zeitformat (DateTimeFormat) haben
     address = models.CharField(max_length=50)           # frontend sollte max. 50 char haben
