@@ -1,14 +1,17 @@
 .footer{
-    background-color: #525252;
+    display: flex;
+    width: 100%;
 }
 .footer-nav{
     display: flex;
+    text-align: center;
     flex-direction: row;
-    padding: 15px;
     justify-content: center;
     align-items: center;
+    padding: 15px;
+    width: 100%;
     color: #fff;
-
+    background-color: #525252;
 }
 
 .nav-item{

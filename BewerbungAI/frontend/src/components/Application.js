@@ -4,9 +4,12 @@ import Button from "./Button.js";
 import InputForm from "./InputForm.js";
 import Footer from "./Footer.js";
 import "./Application.css";
+import { useNavigate } from "react-router";
+
 
 function Application(){
-const [inputValue, setInputValue] = useState({
+  const navigate = useNavigate();
+  const [inputValue, setInputValue] = useState({
       job: ""
     });
 
@@ -53,15 +56,17 @@ const [inputValue, setInputValue] = useState({
       }
 
       const data = await response.json();
+      navigate('/result');
       console.log(data); // Process the response data
     } catch (err) {
       console.error('Error:', err);
     }
   };
   return (
+  <div className="body">
     <div>
       <Navbar />
-      <h3 className="job_info_title">Job description </h3>
+      <h3 className="title">Job description </h3>
       <form onSubmit={handleSubmit} className="job_info">
         <div className="job_info_input">
           <textarea className="job_info_content col-7" label="Job descripbtion" type="text" name="job" value={inputValue.job} onChange={handleChange} placeholder="Job descripbtion" required></textarea>
@@ -72,6 +77,7 @@ const [inputValue, setInputValue] = useState({
           </Button>
         </div>
       </form>
+    </div>
       <Footer />
     </div>
   );

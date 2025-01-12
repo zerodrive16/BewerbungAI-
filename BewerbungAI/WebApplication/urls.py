@@ -13,5 +13,6 @@ urlpatterns = [
     path('resume/api', views.resume_api, name='resume_api'),
     path('application/api', views.application_api, name='application_api'),
     path('dataset/api', views.dataset_api, name='dataset_api'),
+    path('download/api', views.download, name='download'),
     re_path(r'^.*$', TemplateView.as_view(template_name='index.html')),
 ]
