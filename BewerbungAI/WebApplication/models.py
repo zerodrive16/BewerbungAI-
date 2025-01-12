@@ -25,7 +25,6 @@ class Data(models.Model):
     companyAddress = models.CharField(max_length=50)    # frontend sollte max. 50 char haben
     companyCity = models.CharField(max_length=50)       # frontend sollte max. 50 char haben
     companyZipCode = models.CharField(max_length=10)    # frontend sollte max. 10 char haben
-    commpanyState = models.CharField(max_length=50)     # frontend sollte max. 50 char haben
     jobFieldName = models.CharField(max_length=50)      # frontend sollte max. 50 char haben
     jobFieldContent = models.TextField(max_length=400)  # frontend sollte max. 400 char haben
 

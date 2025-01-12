@@ -4,6 +4,7 @@ from openai_request import openAIRequest
 
 # Information about the Job Description here
 jobDescription = {
+    "managerName": "TechSource",
     "companyName": "TechHub Inc.",
     "companyAddress": "123 Innovation Drive",
     "companyCity": "TechCity",
