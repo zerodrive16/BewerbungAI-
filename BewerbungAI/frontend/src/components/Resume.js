@@ -80,7 +80,7 @@ function Resume() {
   return (
     <div>
       <Navbar />
-      <h3 className="pers_info_title">Personal information</h3>
+      <h3 className="title">Personal information</h3>
       <form onSubmit={handleSubmit} className="pers_info">
         <div className="pers_info_input">
           <div className="pers_info_col col-5">

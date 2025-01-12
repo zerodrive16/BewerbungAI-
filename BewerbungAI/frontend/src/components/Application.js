@@ -61,7 +61,7 @@ const [inputValue, setInputValue] = useState({
   return (
     <div>
       <Navbar />
-      <h3 className="job_info_title">Job description </h3>
+      <h3 className="title">Job description </h3>
       <form onSubmit={handleSubmit} className="job_info">
         <div className="job_info_input">
           <textarea className="job_info_content col-7" label="Job descripbtion" type="text" name="job" value={inputValue.job} onChange={handleChange} placeholder="Job descripbtion" required></textarea>

@@ -8,3 +8,9 @@ p{
 .no-decoration{
     text-decoration: none;
 }
+
+
+.title{
+    justify-content: center;
+    padding: 2rem;
+}

@@ -112,3 +112,13 @@ def application_api(request):
     else:
         return JsonResponse({'error': 'Method not allowed'}, status=405)
 
+
+def download(request):
+    if request.method == "POST":
+        try:
+            subprocess.run(["python", "WebApplication/Text_Preprocessing/Pretrain Dataset/helloWorld.py"], check=True)
+            return JsonResponse({"message": "Script executed successfully!"}, status=200)
+        except subprocess.CalledProcessError as e:
+            return JsonResponse({"error": str(e)}, status=500)
+    return JsonResponse({"error": "Invalid request method."}, status=400)
+
