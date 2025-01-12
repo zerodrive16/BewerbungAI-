@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+    text-align: center;
 }
 p{
     color: #fff;
@@ -9,8 +9,13 @@ p{
     text-decoration: none;
 }
 
+.body{
+    display:flex;
+    flex-direction: column;
+}
 
 .title{
+    display: flex;
     justify-content: center;
     padding: 2rem;
 }

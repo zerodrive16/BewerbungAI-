@@ -59,6 +59,7 @@ const [inputValue, setInputValue] = useState({
     }
   };
   return (
+  <div className="body">
     <div>
       <Navbar />
       <h3 className="title">Job description </h3>
@@ -72,6 +73,7 @@ const [inputValue, setInputValue] = useState({
           </Button>
         </div>
       </form>
+    </div>
       <Footer />
     </div>
   );

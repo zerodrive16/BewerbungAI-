@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 function Navbar(){
     return(
-    <nav className="navbar navbar-expand-lg ">
+    <nav className="navbar navbar-expand-lg col-12">
        <h1 className="navbar-brand col-2">BewerbungAI</h1>
        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>

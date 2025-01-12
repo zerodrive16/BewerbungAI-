@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Button from "./Button.js";
 import axios from 'axios';
-
 
 function Download() {
 
@@ -21,7 +21,6 @@ function Download() {
       return null;  // Return null if no CSRF token is found
   };
   const executeScript = async (e) => {
-    e.preventDefault();
     try {
       const csrfToken = getCSRFToken();
       if (!csrfToken) {
@@ -49,14 +48,14 @@ function Download() {
     }
   };
 
+  useEffect(() => {
+    executeScript();
+  }, []);
 
   return (
   <>
-   <button onClick={executeScript}>
-      Run Python Script
-    </button>
-    <a href=" http://127.0.0.1:8000/static/text.txt" download="text.txt">
-      <button>Download File</button>
+    <a href="http://127.0.0.1:8000/static/text.txt" download="text.txt">
+      <Button style={{ border: "1px solid rgb(82, 82, 82)"}}>Download File</Button>
     </a>
    </>
   );

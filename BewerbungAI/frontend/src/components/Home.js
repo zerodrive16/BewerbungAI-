@@ -7,13 +7,13 @@ import { Link } from 'react-router-dom';
 
 function Home(){
     const items = [
-        {id: 1, title: "1. Fill out the form", img: "../img/form.png"},
-        {id: 2, title: "2. Generate your CV", img: "../img/cv.png"},
-        {id: 3, title: "3. Copy the job description", img: "../img/job.png"},
-        {id: 4, title: "4. Generate application letter", img: "../img/generate.png"}
+        {id: 1, title: "1. Fill out the form", img: "./static/media/form.png"},
+        {id: 2, title: "2. Generate your CV", img: "./static/media/cv.png"},
+        {id: 3, title: "3. Copy the job description", img: "./static/media/job.png"},
+        {id: 4, title: "4. Generate application letter", img: "./static/media/generate.png"}
     ];
 return (
-    <div>
+    <div className="body">
       <div className="home-header d-flex flex-column justify-content-center">
         <Navbar />
         <div className="content-header">
