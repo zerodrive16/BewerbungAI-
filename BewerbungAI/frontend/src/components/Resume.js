@@ -5,11 +5,13 @@ import Navbar from "./Navbar.js";
 import Footer from "./Footer.js";
 import Button from "./Button.js";
 import "./Resume.css";
+import { useNavigate } from "react-router";
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000';
 axios.defaults.withCredentials = true; // Ensure credentials (cookies) are sent
 
 function Resume() {
+  const navigate = useNavigate();
   const [inputValue, setInputValue] = useState({
       name: "",
       surname: "",
@@ -69,6 +71,7 @@ function Resume() {
       }
 
       const data = await response.json();
+      navigate('/application');
       console.log(data); // Process the response data
     } catch (err) {
       console.error('Error:', err);
