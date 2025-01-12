@@ -13,19 +13,19 @@ axios.defaults.withCredentials = true; // Ensure credentials (cookies) are sent
 function Resume() {
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState({
-      name: "",
-      surname: "",
+      first_name: "",
+      last_name: "",
       birthday: "",
-      birthplace: "",
-      nationality: "",
       address: "",
+      city: "",
+      zipcode: "",
       phone: "",
       email: "",
+      date: "",
       experience: "",
       education: "",
       skills: "",
-      languages: "",
-      interests: "",
+      interests: ""
     });
 
   // Function to extract CSRF token from cookies
@@ -85,19 +85,21 @@ function Resume() {
         <div className="pers_info_input">
           <div className="pers_info_col col-5">
             <InputForm
-              label="Name"
+              label="First name"
               type="text"
-              name="name"
-              value={inputValue.name}
+              name="first_name"
+              value={inputValue.first_name}
               onChange={handleChange}
+              maxLength="20"
               required
             />
             <InputForm
-              label="Surname"
+              label="Last name"
               type="text"
-              name="surname"
-              value={inputValue.surname}
+              name="last_name"
+              value={inputValue.last_name}
               onChange={handleChange}
+              maxLength="20"
               required
             />
             <InputForm
@@ -106,22 +108,7 @@ function Resume() {
               name="birthday"
               value={inputValue.birthday}
               onChange={handleChange}
-              required
-            />
-            <InputForm
-              label="Place of birth"
-              type="text"
-              name="birthplace"
-              value={inputValue.birthplace}
-              onChange={handleChange}
-              required
-            />
-            <InputForm
-              label="Nationality"
-              type="text"
-              name="nationality"
-              value={inputValue.nationality}
-              onChange={handleChange}
+              errorMessage="DateTime must be in the format DD/MM/YYYY"
               required
             />
             <InputForm
@@ -130,6 +117,25 @@ function Resume() {
               name="address"
               value={inputValue.address}
               onChange={handleChange}
+              maxLength="50"
+              required
+            />
+            <InputForm
+              label="City"
+              type="text"
+              name="city"
+              value={inputValue.city}
+              onChange={handleChange}
+              maxLength="50"
+              required
+            />
+            <InputForm
+              label="Zipcode"
+              type="text"
+              name="zipcode"
+              value={inputValue.zipcode}
+              onChange={handleChange}
+              maxLength="17"
               required
             />
             <InputForm
@@ -138,6 +144,7 @@ function Resume() {
               name="phone"
               value={inputValue.phone}
               onChange={handleChange}
+              maxLength="17"
               required
             />
             <InputForm
@@ -150,11 +157,20 @@ function Resume() {
           </div>
           <div className="pers_info_col col-5">
             <InputForm
+              label="Date"
+              type="text"
+              name="date"
+              value={inputValue.date}
+              onChange={handleChange}
+              required
+            />
+            <InputForm
               label="Work experience"
               type="text"
               name="experience"
               value={inputValue.experience}
               onChange={handleChange}
+              maxLength="200"
               required
             />
             <InputForm
@@ -163,6 +179,7 @@ function Resume() {
               name="education"
               value={inputValue.education}
               onChange={handleChange}
+              maxLength="200"
               required
             />
             <InputForm
@@ -171,14 +188,7 @@ function Resume() {
               name="skills"
               value={inputValue.skills}
               onChange={handleChange}
-              required
-            />
-            <InputForm
-              label="Languages"
-              type="text"
-              name="languages"
-              value={inputValue.languages}
-              onChange={handleChange}
+              maxLength="200"
               required
             />
             <InputForm
@@ -187,6 +197,7 @@ function Resume() {
               name="interests"
               value={inputValue.interests}
               onChange={handleChange}
+              maxLength="200"
               required
             />
           </div>

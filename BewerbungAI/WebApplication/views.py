@@ -41,33 +41,33 @@ def resume_api(request):
             data = json.loads(request.body.decode('utf-8'))
             print(data)
             value = data.get('value', 'N/A')
-            name = value.get('name', 'N/A')
-            surname = value.get('surname', 'N/A')
+            first_name = value.get('first_name', 'N/A')
+            last_name = value.get('last_name', 'N/A')
             birthday = value.get('birthday', 'N/A')
-            birthplace = value.get('birthplace', 'N/A')
-            nationality = value.get('nationality', 'N/A')
             address = value.get('address', 'N/A')
+            city = value.get('city', 'N/A')
+            zipcode = value.get('zipcode', 'N/A')
             phone = value.get('phone', 'N/A')
             email = value.get('email', 'N/A')
+            date = value.get('date', 'N/A')
             experience = value.get('experience', 'N/A')
             education = value.get('education', 'N/A')
             skills = value.get('skills', 'N/A')
-            languages = value.get('languages', 'N/A')
             interests = value.get('interests', 'N/A')
 
             resume_data = {
-                'name': name,
-                'surname': surname,
+                'first_name': first_name,
+                'last_name': last_name,
                 'birthday': birthday,
-                'birthplace': birthplace,
-                'nationality': nationality,
                 'address': address,
+                'city': city,
+                'zipcode': zipcode,
                 'phone': phone,
                 'email': email,
+                'date': date,
                 'experience': experience,
                 'education': education,
                 'skills': skills,
-                'languages': languages,
                 'interests': interests,
             }
             print(resume_data)
