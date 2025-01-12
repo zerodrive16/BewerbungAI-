@@ -23,7 +23,7 @@ def home(request):
     return render(request, 'index.html')
 
 
-def dataset_api():
+def dataset_api(request):
     data = list(Data.objects.all())
     return JsonResponse(data, safe=False)
 
