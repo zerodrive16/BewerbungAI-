@@ -1,4 +1,4 @@
-#!/home/diara/Desktop/BewerbungAI-/.env/bin/python
+#!/home/michelle/PycharmProjects/BewerbungAI-/.env/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
