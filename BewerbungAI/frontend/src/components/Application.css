@@ -29,3 +29,9 @@
     white-space: pre-wrap;
     min-height: 15rem;
 }
+
+.job_info_first{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 20rem;
+}

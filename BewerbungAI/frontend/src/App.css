@@ -19,3 +19,15 @@ p{
     justify-content: center;
     padding: 2rem;
 }
+
+.input{
+    padding: 5px;
+    margin: 1rem;
+    border-radius: 4px;
+    border: 1px solid #525252;
+}
+
+.input-form{
+    display: flex;
+    justify-content: center;
+}

@@ -14,17 +14,9 @@ function InputForm({
   colNumber,
   inputClass,
   maxLength,
+  pattern,
   errorMessage
   }) {
-  const [error, setError] = useState("");
-  const handleValidation = (e) => {
-    const { value } = e.target;
-    if (maxLength && value.length > maxLength) {
-      setError(`Must be ${maxLength} characters or less.`);
-      return;
-    }
-    setError("");
-  }
 
   return (
     <div className="input-form">
@@ -37,9 +29,9 @@ function InputForm({
         onChange={onChange}
         className={`input ${inputClass}`}
         maxLength={maxLength}
+        pattern={pattern}
         required
       />
-      {error && <p className="error-message">{error}</p>}
     </div>
   );
 }

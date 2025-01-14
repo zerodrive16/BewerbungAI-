@@ -39,7 +39,6 @@ def resume_api(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body.decode('utf-8'))
-            print(data)
             value = data.get('value', 'N/A')
             first_name = value.get('first_name', 'N/A')
             last_name = value.get('last_name', 'N/A')
@@ -70,7 +69,6 @@ def resume_api(request):
                 'skills': skills,
                 'interests': interests,
             }
-            print(resume_data)
             return JsonResponse({'message': 'POST request received', 'data': resume_data}, status=200)
         except Exception as e:
             return JsonResponse({'error': 'Invalid data', 'details': str(e)}, status=400)
@@ -93,12 +91,23 @@ def application_api(request):
             data = json.loads(request.body.decode('utf-8'))
             print(data)
             value = data.get('value', 'N/A')
+            manager_name = value.get('manager_name', 'N/A')
+            company_name = value.get('company_name', 'N/A')
+            company_address = value.get('company_address', 'N/A')
+            company_city = value.get('company_city', 'N/A')
+            company_zip_code = value.get('company_zip_code', 'N/A')
+            job_field_name = value.get('job_field_name', 'N/A')
             job = value.get('job', 'N/A')
 
             application_data = {
+                'manager_name': manager_name,
+                'company_name': company_name,
+                'company_address': company_address,
+                'company_city': company_city,
+                'company_zip_code': company_zip_code,
+                'job_field_name': job_field_name,
                 'job': job
             }
-            print(application_data)
             return JsonResponse({'message': 'POST request received', 'data': application_data}, status=200)
         except Exception as e:
             return JsonResponse({'error': 'Invalid data', 'details': str(e)}, status=400)

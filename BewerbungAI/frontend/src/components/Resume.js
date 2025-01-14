@@ -1,4 +1,4 @@
-import React, { useState, useEffect,  } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import InputForm from "./InputForm.js";
 import Navbar from "./Navbar.js";
@@ -8,198 +8,134 @@ import "./Resume.css";
 import { useNavigate } from "react-router";
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000';
-axios.defaults.withCredentials = true; // Ensure credentials (cookies) are sent
+axios.defaults.withCredentials = true;
 
 function Resume() {
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState({
-      first_name: "",
-      last_name: "",
-      birthday: "",
-      address: "",
-      city: "",
-      zipcode: "",
-      phone: "",
-      email: "",
-      date: "",
-      experience: "",
-      education: "",
-      skills: "",
-      interests: ""
-    });
+    first_name: "",
+    last_name: "",
+    birthday: "",
+    address: "",
+    city: "",
+    zipcode: "",
+    phone: "",
+    email: "",
+    date: "",
+    experience: "",
+    education: "",
+    skills: "",
+    interests: ""
+  });
 
-  // Function to extract CSRF token from cookies
-  const getCSRFToken = () => {
-      // First, try to get the token from sessionStorage
-      const csrfToken = sessionStorage.getItem('csrfToken');
-      if (csrfToken) {
-        return csrfToken;
-      }
-      // If not found in sessionStorage, try to extract from cookies
-      const cookies = document.cookie.split(';');
-      for (let cookie of cookies) {
-        const [name, value] = cookie.trim().split('=');
-        if (name === 'csrfToken') {
-          return value;
-        }
-      }
-      return null;  // Return null if no CSRF token is found
-  };
+  const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');  // Ensure two digits for day
+    const month = String(today.getMonth() + 1).padStart(2, '0');  // Ensure two digits for month (months are 0-indexed)
+    const year = today.getFullYear();
+    const formattedDate = `${day}.${month}.${year}`;  // Format: DD.MM.YYYY
+    setInputValue(prev => ({ ...prev, date: formattedDate }));
+}, []);
+
+  const fields = [
+    { id: 1, label: "First name", name: "first_name", required: true, maxLength: 20 },
+    { id: 2, label: "Last name", name: "last_name", required: true, maxLength: 20 },
+    { id: 3, label: "Date of birth (DD.MM.YYYY)", name: "birthday", required: true, maxLength: 10 },
+    { id: 4, label: "Address", name: "address", required: true, maxLength: 50 },
+    { id: 5, label: "City", name: "city", required: true, maxLength: 50 },
+    { id: 6, label: "Zipcode", name: "zipcode", required: true, maxLength: 10 },
+    { id: 7, label: "Phone", name: "phone", required: true, maxLength: 17 },
+    { id: 8, label: "E-Mail", name: "email", required: false, maxLength: 100 },
+  ];
+  const textarea = [
+    { id: 10, label: "Work experience", name: "experience", required: true, maxLength: 200 },
+    { id: 11, label: "Education", name: "education", required: true, maxLength: 200 },
+    { id: 12, label: "Skills", name: "skills", required: true, maxLength: 200 },
+    { id: 13, label: "Interests", name: "interests", required: true, maxLength: 200 }
+  ];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setInputValue((prevState) => ({ ...prevState, [name]: value }));
+    setInputValue(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const newErrors = {};
+    fields.forEach(field => {
+      if (field.required && !inputValue[field.name]) {
+        newErrors[field.name] = `${field.label} is required.`;
+      }
+    });
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
 
     try {
-      const csrfToken = getCSRFToken();
-      if (!csrfToken) {
-        throw new Error('CSRF token is missing. Make sure the backend sets it.');
-      }
-      const response = await fetch('resume/api', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'resume/json',
-          'X-CSRFToken': csrfToken
-        },
-        body: JSON.stringify({ value: inputValue })
-      });
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const data = await response.json();
+      const response = await axios.post('resume/api', { value: inputValue });
       navigate('/application');
-      console.log(data); // Process the response data
     } catch (err) {
       console.error('Error:', err);
     }
   };
+
   return (
     <div>
       <Navbar />
       <h3 className="title">Personal information</h3>
       <form onSubmit={handleSubmit} className="pers_info">
         <div className="pers_info_input">
-          <div className="pers_info_col col-5">
-            <InputForm
-              label="First name"
-              type="text"
-              name="first_name"
-              value={inputValue.first_name}
-              onChange={handleChange}
-              maxLength="20"
-              required
-            />
-            <InputForm
-              label="Last name"
-              type="text"
-              name="last_name"
-              value={inputValue.last_name}
-              onChange={handleChange}
-              maxLength="20"
-              required
-            />
-            <InputForm
-              label="Date of birth"
-              type="text"
-              name="birthday"
-              value={inputValue.birthday}
-              onChange={handleChange}
-              errorMessage="DateTime must be in the format DD/MM/YYYY"
-              required
-            />
-            <InputForm
-              label="Address"
-              type="text"
-              name="address"
-              value={inputValue.address}
-              onChange={handleChange}
-              maxLength="50"
-              required
-            />
-            <InputForm
-              label="City"
-              type="text"
-              name="city"
-              value={inputValue.city}
-              onChange={handleChange}
-              maxLength="50"
-              required
-            />
-            <InputForm
-              label="Zipcode"
-              type="text"
-              name="zipcode"
-              value={inputValue.zipcode}
-              onChange={handleChange}
-              maxLength="17"
-              required
-            />
-            <InputForm
-              label="Phone"
-              type="text"
-              name="phone"
-              value={inputValue.phone}
-              onChange={handleChange}
-              maxLength="17"
-              required
-            />
-            <InputForm
-              label="E-Mail"
-              type="email"
-              name="email"
-              value={inputValue.email}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="pers_info_col col-5">
-            <InputForm
+          <div className="pers_info_field">
+            <input
+              className="input"
               label="Date"
               type="text"
               name="date"
               value={inputValue.date}
-              onChange={handleChange}
               required
-            />
-            <InputForm
-              label="Work experience"
-              type="text"
-              name="experience"
-              value={inputValue.experience}
               onChange={handleChange}
-              maxLength="200"
-              required
             />
-            <InputForm
-              label="Education"
-              type="text"
-              name="education"
-              value={inputValue.education}
-              onChange={handleChange}
-              maxLength="200"
-              required
-            />
-            <InputForm
-              label="Skills"
-              type="text"
-              name="skills"
-              value={inputValue.skills}
-              onChange={handleChange}
-              maxLength="200"
-              required
-            />
-            <InputForm
-              label="Interests"
-              type="text"
-              name="interests"
-              value={inputValue.interests}
-              onChange={handleChange}
-              maxLength="200"
-              required
-            />
+            {fields.map(field => (
+              <div key={field.id} className="input-form">
+                <input
+                  className="input"
+                  label={field.label}
+                  type="text"
+                  name={field.name}
+                  placeholder={field.label}
+                  maxLength={field.maxLength}
+                  value={inputValue[field.name]}
+                  required={field.required}
+                  onChange={handleChange}
+                />
+                {errors[field.name] && <span className="error">{errors[field.name]}</span>}
+              </div>
+            ))}
+          </div>
+          <div className="pers_info_textarea">
+            {textarea.map(textarea => (
+              <div key={textarea.id} className="input-form">
+                <textarea
+                  className="per_info_content"
+                  label={textarea.label}
+                  type="text"
+                  name={textarea.name}
+                  placeholder={textarea.label}
+                  maxLength={textarea.maxLength}
+                  value={inputValue[textarea.name]}
+                  required={textarea.required}
+                  onChange={handleChange}
+                />
+                {errors[textarea.name] && <span className="error">{errors[textarea.name]}</span>}
+              </div>
+            ))}
           </div>
         </div>
         <div className="pers_info_button">

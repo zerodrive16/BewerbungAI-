@@ -12,7 +12,68 @@ function Application(){
   const [inputValue, setInputValue] = useState({
       job: ""
     });
-
+  const job_content = [
+    {
+      id: 1,
+      label: "Manager name",
+      type: "text",
+      name: "manager_name",
+      value: inputValue.manager_name,
+      pattern: ".*",
+      maxLength: 30,
+      required: true
+    },
+    {
+      id: 2,
+      label: "Company name",
+      type: "text",
+      name: "company_name",
+      value: inputValue.company_name,
+      pattern: ".*",
+      maxLength: 25,
+      required: true
+    },
+    {
+      id: 3,
+      label: "Company address",
+      type: "text",
+      name: "company_address",
+      value: inputValue.company_address,
+      pattern: ".*",
+      maxLength: 50,
+      required: true
+    },
+    {
+      id: 4,
+      label: "Company city",
+      type: "text",
+      name: "company_city",
+      value: inputValue.company_city,
+      pattern: ".*",
+      maxLength: 50,
+      required: true
+    },
+    {
+      id: 5,
+      label: "Company zip code",
+      type: "text",
+      name: "company_zip_code",
+      value: inputValue.company_zip_code,
+      pattern: ".*",
+      maxLength: 10,
+      required: true
+    },
+    {
+      id: 6,
+      label: "Job field name",
+      type: "text",
+      name: "job_field_name",
+      value: inputValue.job_field_name,
+      pattern: ".*",
+      maxLength: 50,
+      required: true
+    }
+  ]
   // Function to extract CSRF token from cookies
   const getCSRFToken = () => {
       // First, try to get the token from sessionStorage
@@ -62,12 +123,30 @@ function Application(){
       console.error('Error:', err);
     }
   };
+
   return (
   <div className="body">
     <div>
       <Navbar />
       <h3 className="title">Job description </h3>
       <form onSubmit={handleSubmit} className="job_info">
+        <div className="job_info_first">
+        {job_content.map((job_content) => (
+          <div key={job_content.id} className="input-form ">
+            <input className="input"
+              label={job_content.label}
+              type={job_content.type}
+              name={job_content.name}
+              placeholder={job_content.label}
+              pattern={job_content.pattern}
+              maxLength={job_content.maxLength}
+              value={inputValue[job_content.name]}
+              required={job_content.required}
+              onChange={handleChange}
+            />
+          </div>
+        ))}
+        </div>
         <div className="job_info_input">
           <textarea className="job_info_content col-7" label="Job descripbtion" type="text" name="job" value={inputValue.job} onChange={handleChange} placeholder="Job descripbtion" required></textarea>
         </div>
