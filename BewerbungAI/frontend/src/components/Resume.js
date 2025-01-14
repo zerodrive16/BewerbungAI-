@@ -4,7 +4,7 @@ import InputForm from "./InputForm.js";
 import Navbar from "./Navbar.js";
 import Footer from "./Footer.js";
 import Button from "./Button.js";
-import "./Resume.css";
+import "./style/Resume.css";
 import { useNavigate } from "react-router";
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000';
@@ -87,63 +87,65 @@ function Resume() {
   };
 
   return (
-    <div>
+    <div className="box">
       <Navbar />
-      <h3 className="title">Personal information</h3>
-      <form onSubmit={handleSubmit} className="pers_info">
-        <div className="pers_info_input">
-          <div className="pers_info_field">
-            <input
-              className="input"
-              label="Date"
-              type="text"
-              name="date"
-              value={inputValue.date}
-              required
-              onChange={handleChange}
-            />
-            {fields.map(field => (
-              <div key={field.id} className="input-form">
-                <input
-                  className="input"
-                  label={field.label}
-                  type="text"
-                  name={field.name}
-                  placeholder={field.label}
-                  maxLength={field.maxLength}
-                  value={inputValue[field.name]}
-                  required={field.required}
-                  onChange={handleChange}
-                />
-                {errors[field.name] && <span className="error">{errors[field.name]}</span>}
-              </div>
-            ))}
+      <div className="main">
+        <h3 className="title">Personal information</h3>
+        <form onSubmit={handleSubmit} className="pers_info">
+          <div className="pers_info_input">
+            <div className="pers_info_field">
+              <input
+                className="input"
+                label="Date"
+                type="text"
+                name="date"
+                value={inputValue.date}
+                required
+                onChange={handleChange}
+              />
+              {fields.map(field => (
+                <div key={field.id} className="input-form">
+                  <input
+                    className="input"
+                    label={field.label}
+                    type="text"
+                    name={field.name}
+                    placeholder={field.label}
+                    maxLength={field.maxLength}
+                    value={inputValue[field.name]}
+                    required={field.required}
+                    onChange={handleChange}
+                  />
+                  {errors[field.name] && <span className="error">{errors[field.name]}</span>}
+                </div>
+              ))}
+            </div>
+            <div className="pers_info_textarea">
+              {textarea.map(textarea => (
+                <div key={textarea.id} className="input-form">
+                  <textarea
+                    className="per_info_content"
+                    label={textarea.label}
+                    type="text"
+                    name={textarea.name}
+                    placeholder={textarea.label}
+                    maxLength={textarea.maxLength}
+                    value={inputValue[textarea.name]}
+                    required={textarea.required}
+                    onChange={handleChange}
+                  />
+                  {errors[textarea.name] && <span className="error">{errors[textarea.name]}</span>}
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="pers_info_textarea">
-            {textarea.map(textarea => (
-              <div key={textarea.id} className="input-form">
-                <textarea
-                  className="per_info_content"
-                  label={textarea.label}
-                  type="text"
-                  name={textarea.name}
-                  placeholder={textarea.label}
-                  maxLength={textarea.maxLength}
-                  value={inputValue[textarea.name]}
-                  required={textarea.required}
-                  onChange={handleChange}
-                />
-                {errors[textarea.name] && <span className="error">{errors[textarea.name]}</span>}
-              </div>
-            ))}
+          <div className="pers_info_button">
+            <Button colSize="col" colNumber="2" type="submit" style={{ border: "1px solid #525252" }}>
+              Submit
+            </Button>
           </div>
-        </div>
-        <div className="pers_info_button">
-          <Button colSize="col" colNumber="2" type="submit" style={{ border: "1px solid #525252" }}>
-            Submit
-          </Button>
-        </div>
-      </form>
+        </form>
+      </div>
       <Footer />
     </div>
   );

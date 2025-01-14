@@ -17,7 +17,7 @@ from rest_framework.response import Response
 
 resume_data = {}
 application_data = {}
-
+file_data ={}
 
 def home(request):
     return render(request, 'index.html')
@@ -123,11 +123,21 @@ def application_api(request):
 
 
 def download(request):
+    global file_data
+    print("start")
     if request.method == "POST":
         try:
-            subprocess.run(["python", "WebApplication/Text_Preprocessing/Pretrain Dataset/helloWorld.py"], check=True)
-            return JsonResponse({"message": "Script executed successfully!"}, status=200)
+            print("file_data_before ")
+            file_data = subprocess.run(["python", "WebApplication/Text_Preprocessing/Pretrain Dataset/helloWorld.py"], check=True)
+            print("file_data")
+            return JsonResponse({"message": file_data}, status=200)
         except subprocess.CalledProcessError as e:
             return JsonResponse({"error": str(e)}, status=500)
-    return JsonResponse({"error": "Invalid request method."}, status=400)
+    elif request.method == 'GET':
+        if file_data:
+            return JsonResponse({'message': 'GET request received', 'data': file_data}, status=200)
+        else:
+            return JsonResponse({'message': 'No data available'}, status=200)
+    else:
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
 

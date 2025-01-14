@@ -1,6 +1,4 @@
 .download{
-    display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
@@ -20,4 +18,10 @@
     resize: none;
     word-wrap: break-word;
     white-space: pre-wrap;
+}
+
+.result{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

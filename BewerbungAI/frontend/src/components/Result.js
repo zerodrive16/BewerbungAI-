@@ -2,7 +2,7 @@ import React, { useState, useEffect,  } from 'react';
 import Navbar from "./Navbar.js";
 import Footer from "./Footer.js";
 import Download from "./Download.js";
-import "./Result.css";
+import "./style/Result.css";
 
 function Result(){
   const [fileContent, setFileContent] = useState("");
@@ -41,14 +41,16 @@ function Result(){
   }, []);
 
   return (
-    <div className="download">
+    <div className="download box">
       <Navbar />
-      <h3 className="title">Application letter</h3>
-      <div className="download_preview">
-        <pre>{fileContent}</pre>
-      </div>
-      <div className="download_button">
-        <Download/>
+      <div className="main result">
+        <h3 className="title">Application letter</h3>
+        <div className="download_preview">
+          <pre>{fileContent}</pre>
+        </div>
+        <div className="download_button">
+          <Download/>
+        </div>
       </div>
       <Footer />
     </div>

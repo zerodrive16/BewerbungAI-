@@ -6,11 +6,12 @@ import Footer from "./Footer.js";
 
 function AboutUs(){
   return (
-    <div>
+    <div className="box">
       <div className="header d-flex flex-column justify-content-center">
         <Navbar />
       </div>
-        <Footer />
+      <div className="main"></div>
+      <Footer />
     </div>
   );
 }

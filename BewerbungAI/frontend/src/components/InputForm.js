@@ -1,5 +1,5 @@
 import React from "react";
-import "./InputForm.css";
+import "./style/InputForm.css";
 import { useState, useEffect,  } from 'react';
 
 

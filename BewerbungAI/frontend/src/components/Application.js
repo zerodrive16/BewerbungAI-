@@ -3,7 +3,7 @@ import Navbar from "./Navbar.js";
 import Button from "./Button.js";
 import InputForm from "./InputForm.js";
 import Footer from "./Footer.js";
-import "./Application.css";
+import "./style/Application.css";
 import { useNavigate } from "react-router";
 
 
@@ -125,9 +125,9 @@ function Application(){
   };
 
   return (
-  <div className="body">
-    <div>
-      <Navbar />
+  <div className="box">
+    <Navbar />
+    <div className="main">
       <h3 className="title">Job description </h3>
       <form onSubmit={handleSubmit} className="job_info">
         <div className="job_info_first">
@@ -157,7 +157,7 @@ function Application(){
         </div>
       </form>
     </div>
-      <Footer />
+    <Footer />
     </div>
   );
 }

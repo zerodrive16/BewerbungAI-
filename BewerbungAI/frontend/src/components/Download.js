@@ -3,14 +3,13 @@ import Button from "./Button.js";
 import axios from 'axios';
 
 function Download() {
-
+  const [output, setOutput] = useState('');
+  const [error, setError] = useState('');
   const getCSRFToken = () => {
-      // First, try to get the token from sessionStorage
       const csrfToken = sessionStorage.getItem('csrfToken');
       if (csrfToken) {
         return csrfToken;
       }
-      // If not found in sessionStorage, try to extract from cookies
       const cookies = document.cookie.split(';');
       for (let cookie of cookies) {
         const [name, value] = cookie.trim().split('=');
@@ -18,8 +17,23 @@ function Download() {
           return value;
         }
       }
-      return null;  // Return null if no CSRF token is found
+      return null;
   };
+
+  const fetchScriptOutput = () => {
+       console.log("thinking..");
+    axios.get('http://127.0.0.1:8000/download/api')
+      .then(response => {
+        console.log(response.data.output)
+        setOutput(response.data.output);
+      })
+      .catch(err => {
+        console.error('Error fetching data:', err);
+        setError('Failed to fetch script output');
+      });
+        console.log(output);
+  };
+  /*
   const executeScript = async (e) => {
     try {
       const csrfToken = getCSRFToken();
@@ -32,27 +46,29 @@ function Download() {
           "Content-Type": "application/json",
           'X-CSRFToken': csrfToken
         },
+        body: JSON.stringify({ value: inputValue })
       });
       if (response.ok) {
         const data = await response.json();
-        console.log(data.message);
+        console.log(data);
       } else {
         const errorData = await response.json();
-        alert(`Error: ${errorData.error}`);
+        console.log(`Error: ${errorData.error}`);
       }
     } catch (error) {
-      alert("An error occurred: " + error.message);
+      console.log("An error occurred: " + error.message);
     }
   };
-
+*/
   useEffect(() => {
-    executeScript();
+    fetchScriptOutput();
+    console.log("script executed")
   }, []);
 
   return (
   <>
     <a href="http://127.0.0.1:8000/static/text.txt" download="text.txt">
-      <Button style={{ border: "1px solid rgb(82, 82, 82)"}}>Download File</Button>
+      <Button style={{border: "1px solid rgb(82, 82, 82)"}}>Download File</Button>
     </a>
    </>
   );

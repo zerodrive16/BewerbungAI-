@@ -2,7 +2,7 @@ import React from 'react';
 import Navbar from "./Navbar.js";
 import Button from "./Button.js";
 import Footer from "./Footer.js";
-import "./Home.css";
+import "./style/Home.css";
 import { Link } from 'react-router-dom';
 
 function Home(){
@@ -12,10 +12,10 @@ function Home(){
         {id: 3, title: "3. Copy the job description", img: "./static/media/job.png"},
         {id: 4, title: "4. Generate application letter", img: "./static/media/generate.png"}
     ];
-return (
-    <div className="body">
+  return (
+    <div className="box">
+      <Navbar />
       <div className="home-header d-flex flex-column justify-content-center">
-        <Navbar />
         <div className="content-header">
           <p className="col-4 d-flex text-align-center">
             Create your perfect resume in just a few minutes!
@@ -28,7 +28,7 @@ return (
           </Button>
         </div>
       </div>
-      <div className="steps">
+      <div className="steps main">
         <h2 className="steps_title">So erstellst du mit Name ein Anschreiben</h2>
         <ul className="steps_list col-12">
           {items.map(item => {
