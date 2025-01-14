@@ -74,7 +74,7 @@ python manage.py runserver
 ```
 
 ## 🎉 You are All Set! 
-Your application is not ready to use. If any issues encounter, feel free to raise an issue in the Github Repository (https://github.com/zerodrive16/BewerbungAI-) 
+Your application is ready to use. If any issues encounter, feel free to raise an issue in the Github Repository (https://github.com/zerodrive16/BewerbungAI-) 
 
 ## 🚀 Features 
 - Generate personalized AI-based job application letters
