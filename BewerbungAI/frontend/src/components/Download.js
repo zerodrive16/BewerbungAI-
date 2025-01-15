@@ -19,7 +19,7 @@ function Download() {
       }
       return null;
   };
-
+/*
   const fetchScriptOutput = () => {
        console.log("thinking..");
     axios.get('http://127.0.0.1:8000/download/api')
@@ -33,7 +33,7 @@ function Download() {
       });
         console.log(output);
   };
-  /*
+  */
   const executeScript = async (e) => {
     try {
       const csrfToken = getCSRFToken();
@@ -46,7 +46,6 @@ function Download() {
           "Content-Type": "application/json",
           'X-CSRFToken': csrfToken
         },
-        body: JSON.stringify({ value: inputValue })
       });
       if (response.ok) {
         const data = await response.json();
@@ -59,9 +58,9 @@ function Download() {
       console.log("An error occurred: " + error.message);
     }
   };
-*/
+
   useEffect(() => {
-    fetchScriptOutput();
+    executeScript();
     console.log("script executed")
   }, []);
 
