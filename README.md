@@ -62,6 +62,7 @@ Almost done now. It is important to run the react build and later run the django
 with "react-scripts" the dependency needs to be added in the *package.json*. 
 ```bash
 cd frontend
+npm install 
 npm run build
 cd ..
 python manage.py runserver
