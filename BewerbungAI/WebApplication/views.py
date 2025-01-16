@@ -122,6 +122,11 @@ def application_api(request):
         return JsonResponse({'error': 'Method not allowed'}, status=405)
 
 
+def generatedJobApplicationLetter():
+    # Consideration of both finished API's (with data)
+    pass
+
+
 def download(request):
     global file_data
     print("start")
