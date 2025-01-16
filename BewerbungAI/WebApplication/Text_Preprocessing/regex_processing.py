@@ -1,7 +1,8 @@
 import re
+import asyncio
 
 
-def performRegex(text):
+async def performRegex(text):
     if not isinstance(text, str):
         text = str(text)
 
