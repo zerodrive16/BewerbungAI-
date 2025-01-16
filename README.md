@@ -13,13 +13,13 @@ https://github.com/zerodrive16/BewerbungAI-.git
 ```
 Copy the repository to a desired folder or your IDE workspace.
 
-### 2. Create a Virtual Environment
+### 2. Create a Virtual Environment (MacOS)
 Run the following command to create a virtual environment in the project directory:
 ```bash
 python -m venv <name>
 ```
 
-### 3. Activate the Virtual Environment
+### 3. Activate the Virtual Environment (MacOS)
 Activate the Virtual Environment: 
 ```bash
 source <name>/bin/activate
@@ -72,6 +72,7 @@ python manage.py runserver
   ...
 }
 ```
+---
 
 ## 🎉 You are All Set! 
 Your application is ready to use. If any issues encounter, feel free to raise an issue in the Github Repository (https://github.com/zerodrive16/BewerbungAI-) 
@@ -79,6 +80,8 @@ Your application is ready to use. If any issues encounter, feel free to raise an
 ## 🚀 Features 
 - Generate personalized AI-based job application letters
 - Ensures extra safety with personalized data
-- Simplicity and Easy to Use Tool 
+- Simplicity and Easy to Use Tool
+- History of written job application letter
+- Store personal data, company data and the generated job application letter in a database
 
 
