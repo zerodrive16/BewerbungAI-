@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.middleware.csrf import get_token
 from .models import Data
-from .serializers import DataSerializer
+from django.core.serializers import serialize
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 #from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
@@ -13,6 +13,7 @@ from rest_framework.response import Response
 from .Text_Preprocessing.spacy_summarizer import textSummarizationJobDescription, textSummarizationPersonalInformation
 from .Text_Preprocessing.openai_request import openAIRequest
 from .Text_Preprocessing.regex_processing import performRegex
+from .Text_Preprocessing.storeDatabase import databaseStorage
 
 
 # Create your views here.
@@ -27,8 +28,10 @@ def home(request):
 
 
 def dataset_api(request):
-    data = list(Data.objects.all())
-    return JsonResponse(data, safe=False)
+    data = Data.objects.all()
+    print(data)
+    data_serialzed = serialize('json', data)
+    return JsonResponse(data_serialzed, safe=False)
 
 
 def get_csrf_token(request):
@@ -72,7 +75,7 @@ def resume_api(request):
                 'skills': skills,
                 'interests': interests,
             }
-            print("Hello World 1")
+
             return JsonResponse({'message': 'POST request received', 'data': resume_data}, status=200)
         except Exception as e:
             return JsonResponse({'error': 'Invalid data', 'details': str(e)}, status=400)
@@ -113,9 +116,11 @@ def application_api(request):
                 'job': job
             }
 
-            #generatedJobApplicationLetter(resume_data, application_data)
+            AIOutput, app_final, personal_final = generatedJobApplicationLetter(resume_data, application_data)
 
+            storeInDatabase = databaseStorage(resume_data, application_data, app_final, personal_final, AIOutput)
 
+            print("successful", storeInDatabase)
             return JsonResponse({'message': 'POST request received', 'data': application_data}, status=200)
         except Exception as e:
             return JsonResponse({'error': 'Invalid data', 'details': str(e)}, status=400)
@@ -135,7 +140,7 @@ def generatedJobApplicationLetter(resume_data, application_data):
 
     # Text Preprocessing Job Description
     # Summarize specific fields
-    jDFieldsSummarize = ["jobFieldContent"]
+    jDFieldsSummarize = ["job"]
 
     jDResults = {}
 
@@ -179,7 +184,9 @@ def generatedJobApplicationLetter(resume_data, application_data):
 
     # OpenAI request
     openAIOutput = openAIRequest(resume_data, application_data, finalJobDescription, finalPersonalDescription)
-    print(openAIOutput)
+    return(openAIOutput, finalJobDescription, finalPersonalDescription)
+
+
 
 
 file_data = None  # Initialize file_data globally

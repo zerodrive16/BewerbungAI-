@@ -29,7 +29,7 @@ class Data(models.Model):
     jobFieldContent = models.TextField(max_length=400)  # frontend sollte max. 400 char haben
 
     # Generated JobApplication letter
-    jobApplicationId = models.IntegerField()
+    jobApplicationId = models.CharField(max_length=20, unique=True)
     jobApplicationContent = models.TextField()
 
     def __str__(self):
