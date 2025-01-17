@@ -1,16 +1,18 @@
 import json
 import subprocess
 
-from django.http import JsonResponse
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.middleware.csrf import get_token
 from .models import Data
 from .serializers import DataSerializer
-from django.views.decorators.http import require_POST
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 #from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
+
+from .Text_Preprocessing.spacy_summarizer import textSummarizationJobDescription, textSummarizationPersonalInformation
+from .Text_Preprocessing.openai_request import openAIRequest
+from .Text_Preprocessing.regex_processing import performRegex
 
 
 # Create your views here.
@@ -18,6 +20,7 @@ from rest_framework.response import Response
 resume_data = {}
 application_data = {}
 file_data ={}
+
 
 def home(request):
     return render(request, 'index.html')
@@ -109,7 +112,10 @@ def application_api(request):
                 'job_field_name': job_field_name,
                 'job': job
             }
-            print("Hello World 2")
+
+            #generatedJobApplicationLetter(resume_data, application_data)
+
+
             return JsonResponse({'message': 'POST request received', 'data': application_data}, status=200)
         except Exception as e:
             return JsonResponse({'error': 'Invalid data', 'details': str(e)}, status=400)
@@ -124,105 +130,87 @@ def application_api(request):
         return JsonResponse({'error': 'Method not allowed'}, status=405)
 
 
-data_store = {
-    'resume': None,
-    'job_description': None,
-}
-
-
-def combined_api(request):
-    if request.method == 'POST':
-        try:
-            # Parse incoming data
-            data = json.loads(request.body.decode('utf-8'))
-            data_type = data.get('type', None)  # 'resume' or 'job_description'
-            value = data.get('value', 'N/A')
-
-            # Fetch or create the database record
-            data_entry, created = Data.objects.get_or_create(id=1)  # Using a single entry for simplicity
-
-            # Update the respective field
-            if data_type == 'resume':
-                data_entry.resume = value
-            elif data_type == 'job_description':
-                data_entry.job_description = value
-            else:
-                return JsonResponse({'error': 'Invalid data type'}, status=400)
-
-            # Save the updated entry
-            data_entry.save()
-
-            # Check if both fields are filled
-            if data_entry.resume and data_entry.job_description:
-                combined_data = {
-                    'resume': data_entry.resume,
-                    'job_description': data_entry.job_description,
-                }
-
-                # Optional: Process the combined data (e.g., send to OpenAI)
-
-                return JsonResponse({
-                    'message': 'Both data received and processed',
-                    'combined_data': combined_data
-                }, status=200)
-
-            return JsonResponse({'message': f'{data_type} data received. Waiting for the other data.'}, status=200)
-        except Exception as e:
-            return JsonResponse({'error': 'Invalid data', 'details': str(e)}, status=400)
-
-    elif request.method == 'GET':
-        try:
-            data_entry = Data.objects.get(id=1)  # Fetch the existing entry
-            response_data = {
-                'resume': data_entry.resume,
-                'job_description': data_entry.job_description,
-            }
-            return JsonResponse({'current_data': response_data}, status=200)
-        except Data.DoesNotExist:
-            return JsonResponse({'current_data': 'No data available'}, status=200)
-
-    else:
-        return JsonResponse({'error': 'Method not allowed'}, status=405)
-
-def generatedJobApplicationLetter():
+def generatedJobApplicationLetter(resume_data, application_data):
     # Consideration of both finished API's (with data)
-    pass
+
+    # Text Preprocessing Job Description
+    # Summarize specific fields
+    jDFieldsSummarize = ["jobFieldContent"]
+
+    jDResults = {}
+
+    for key, value in application_data.items():
+        if isinstance(value, str):
+            jDProcessedValue = performRegex(value)
+
+            if key in jDFieldsSummarize:
+                jDResults[key] = {
+                    "processed": jDProcessedValue,
+                    "summary": textSummarizationJobDescription(jDProcessedValue)
+                }
+            else:
+                jDResults[key] = jDProcessedValue
+        else:
+            jDResults[key] = value
+
+    finalJobDescription = jDResults
+
+    # Text Preprocessing Personal Information
+    # Summarize specific fields
+    pIFieldsSummarize = ["experience", "education", "skills", "interests"]
+
+    pIResults = {}
+
+    for key, value in resume_data.items():
+        if isinstance(value, str):
+            pIProcessedValue = performRegex(value)
+
+            if key in pIFieldsSummarize:
+                pIResults[key] = {
+                    "processed": pIProcessedValue,
+                    "summary": textSummarizationPersonalInformation(pIProcessedValue)
+                }
+            else:
+                pIResults[key] = pIProcessedValue
+        else:
+            pIResults[key] = value
+
+    finalPersonalDescription = pIResults
+
+    # OpenAI request
+    openAIOutput = openAIRequest(resume_data, application_data, finalJobDescription, finalPersonalDescription)
+    print(openAIOutput)
 
 
-file_data = None
-
+file_data = None  # Initialize file_data globally
 
 @api_view(["POST", "GET"])
 def download(request):
     global file_data
-    print("start")
+
     if request.method == "POST":
         try:
             process = subprocess.run(
                 ["python", "WebApplication/Text_Preprocessing/Pretrain Dataset/helloWorld.py"],
                 check=True,
                 capture_output=True,
-                text=True
+                text=True,
             )
             file_data = {"output": process.stdout}
 
-            # Serialize the data
-            serializer = DataSerializer(data=file_data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response({"message": "Data processed and saved", "data": serializer.data}, status=200)
-            else:
-                return Response({"error": serializer.errors}, status=400)
+            # Skip serialization, directly return the processed data as JSON
+            return Response({"message": "Data processed successfully", "data": file_data}, status=200)
+
         except subprocess.CalledProcessError as e:
             return Response({"error": str(e)}, status=500)
 
     elif request.method == "GET":
+        # Return the raw data directly in the JSON response
         if file_data:
-            serializer = DataSerializer(file_data)
-            return Response({'message': 'GET request received', 'data': serializer.data}, status=200)
+            return Response({"message": "GET request received", "data": file_data}, status=200)
         else:
-            return Response({'message': 'No data available'}, status=200)
+            return Response({"message": "No data available"}, status=200)
 
-    else:
-        return Response({'error': 'Method not allowed'}, status=405)
+    # Fallback for unsupported methods
+    return Response({"error": "Method not allowed"}, status=405)
 

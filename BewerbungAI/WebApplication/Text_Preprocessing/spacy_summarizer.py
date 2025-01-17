@@ -1,4 +1,3 @@
-import asyncio
 from transformers import pipeline
 
 
@@ -6,17 +5,17 @@ from transformers import pipeline
 summarizer = pipeline("summarization", model="t5-small")
 
 
-async def textSummarizationJobDescription(text):
+def textSummarizationJobDescription(text):
     input_length = len(text.split())
     # Skip the summarization if it's less than 75 words
     if input_length <= 75:
         return text
     else:
-        summary = await asyncio.to_thread(summarizer,text, max_length=150, min_length=75, do_sample=False)
+        summary = summarizer(text, max_length=150, min_length=75, do_sample=False)
         return summary[0]['summary_text']
 
 
-async def textSummarizationPersonalInformation(text):
+def textSummarizationPersonalInformation(text):
     input_length = len(text.split())
     # Skip the summarization if it's less than 50 words
     if input_length <= 50:
@@ -25,5 +24,5 @@ async def textSummarizationPersonalInformation(text):
         max_length = min(200, max(50, input_length // 2)) # Divide if it goes the 50 words mark
         min_length = max(25, max_length // 2)
 
-        summary = await asyncio.to_thread(summarizer,text, max_length=max_length, min_length=min_length, do_sample=False)
+        summary = summarizer(text, max_length=max_length, min_length=min_length, do_sample=False)
         return summary[0]['summary_text']
