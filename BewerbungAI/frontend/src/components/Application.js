@@ -10,6 +10,12 @@ import { useNavigate } from "react-router";
 function Application(){
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState({
+      manager_name: "",
+      company_name: "",
+      company_address: "",
+      company_city: "",
+      company_zip_code:"",
+      job_field_name:"",
       job: ""
     });
   const job_content = [
