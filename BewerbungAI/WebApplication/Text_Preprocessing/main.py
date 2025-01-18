@@ -9,7 +9,6 @@ jobDescription = {
     "companyAddress": "123 Innovation Drive",
     "companyCity": "TechCity",
     "companyZipCode": "98765",
-    "companyState": "TechState",
     "jobFieldName": "Senior Developer (C++, Python, JavaScript)",
     "jobFieldContent": """
     Job Title: Senior Developer (C++, Python, JavaScript) ⚙️🚀

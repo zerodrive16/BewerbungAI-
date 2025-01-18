@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'WebApplication',
     'mozilla_django_oidc',
+    'rest_framework',
     'corsheaders',
 ]
 
@@ -74,6 +75,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 
 ]
+MIDDLEWARE.insert(0, 'corsheaders.middleware.CorsMiddleware')
 CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOWED_ORIGINS = [
@@ -117,6 +119,12 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',  # Force JSON responses
+    ),
 }
 
 
