@@ -65,16 +65,18 @@ function Result(){
         if (data && data.length > 0) {
           const lastItem = data[data.length - 1];
           setLastEntry(lastItem);
-          const appl_letter = formatText(lastItem.jobApplicationContent);
-          const textContent = `${appl_letter}`;
-          setPreviewText(textContent);
+          transformDataToText(lastItem);
           console.log("Last entry from data:", lastItem);
         } else {
           setLastEntry(null);
         }
       });
   }, []);
-
+  const transformDataToText = (data) => {
+    const appl_letter = formatText(data.jobApplicationContent);
+    const textContent = `${appl_letter}`;
+    setPreviewText(textContent);
+  };
   const downloadTextFile = () => {
     const blob = new Blob([previewText], { type: "text/plain" });
     const link = document.createElement("a");
