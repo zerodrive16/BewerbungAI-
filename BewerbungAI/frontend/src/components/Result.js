@@ -28,27 +28,20 @@ function Result(){
     // Function to format text
   const formatText = (inputText) => {
     const maxLineLength = 90;
-    const minLineLength = 80;
+    const minLineLength = 70;
 
     let lines = [];
     let currentLine = "";
-
-    const groupedInput = inputText.replace(/(\d{2,4}(?: \d{2,4})+)/g, (match) => {
-      return match.replace(/ /g, "¶"); // Replace spaces with a placeholder
-    });
-    groupedInput.split(" ").forEach((word) => {
-      word = word.replace(/¶/g, " ");
+    inputText.split(" ").forEach((word) => {
+      console.log(currentLine + word)
       if ((currentLine + word).length > maxLineLength) {
-        // Add the current line to the lines array if it exceeds max length
         lines.push(currentLine.trim());
         currentLine = word + " ";
       } else if ((currentLine + word).length >= minLineLength && word.endsWith(".")) {
-        // Add line early if it's a good breaking point (e.g., ends with a period)
         currentLine += word + " ";
         lines.push(currentLine.trim());
         currentLine = "";
       } else {
-        // Otherwise, keep building the current line
         currentLine += word + " ";
       }
     });
@@ -57,6 +50,7 @@ function Result(){
     }
     return lines.join("\n");
   };
+
   useEffect(() => {
     fetch("/dataset/api")
       .then((response) => response.json())
@@ -65,6 +59,7 @@ function Result(){
         if (data && data.length > 0) {
           const lastItem = data[data.length - 1];
           setLastEntry(lastItem);
+          console.log(lastItem)
           transformDataToText(lastItem);
           console.log("Last entry from data:", lastItem);
         } else {
