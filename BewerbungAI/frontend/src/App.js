@@ -6,6 +6,8 @@ import Resume from "./components/Resume.js";
 import Application from "./components/Application.js";
 import Output from "./components/Output.js";
 import Result from "./components/Result.js";
+import History from "./components/History.js";
+import HistoryDetails from "./components/HistoryDetails.js";
 import "./App.css";
 
 import axios from 'axios';
@@ -44,6 +46,8 @@ export default function App() {
           <Route path="/aboutUs" element={<AboutUs />} />
           <Route path="/output" element={<Output />} />
           <Route path="/result" element={<Result />} />
+          <Route path="/history" element={<History />} />
+          <Route path="/historyDetails/:id" element={<HistoryDetails />} />
         </Routes>
       </div>
     </Router>

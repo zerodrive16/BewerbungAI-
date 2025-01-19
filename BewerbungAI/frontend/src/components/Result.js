@@ -59,7 +59,7 @@ function Result(){
         if (data && data.length > 0) {
           const lastItem = data[data.length - 1];
           setLastEntry(lastItem);
-          console.log(lastItem)
+          console.log(lastItem);
           transformDataToText(lastItem);
           console.log("Last entry from data:", lastItem);
         } else {

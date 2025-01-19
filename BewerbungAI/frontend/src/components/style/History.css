@@ -1,0 +1,7 @@
+.history_items{
+    list-style: none;
+    padding: 1rem;
+    border: 1px solid;
+    border-radius: 1rem;
+    margin: 1rem;
+}

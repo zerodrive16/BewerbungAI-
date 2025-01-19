@@ -21,6 +21,10 @@ function Navbar(){
                  Personal Information</Link>
               </li>
               <li className="nav-item">
+                 <Link to="/history" className="nav-link">
+                 History</Link>
+              </li>
+              <li className="nav-item">
                  <Link to="/aboutUs" className="nav-link">
                  About us</Link>
               </li>
