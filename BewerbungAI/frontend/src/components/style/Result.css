@@ -20,6 +20,11 @@
     white-space: pre-wrap;
 }
 
+.download_preview pre{
+    display: flex;
+    max-width: 100vw;
+}
+
 .result{
     display: flex;
     flex-direction: column;

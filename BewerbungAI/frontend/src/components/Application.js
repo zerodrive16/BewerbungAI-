@@ -157,7 +157,7 @@ function Application(){
           <textarea className="job_info_content col-7" label="Job descripbtion" type="text" name="job" value={inputValue.job} onChange={handleChange} placeholder="Job descripbtion" required></textarea>
         </div>
         <div className="job_info_button">
-          <Button colSize="col" colNumber="2" type="submit" style={{ border: "1px solid #525252", margin: "2rem" }}>
+          <Button colSize="col" colNumber="2" type="submit">
             Submit
           </Button>
         </div>
