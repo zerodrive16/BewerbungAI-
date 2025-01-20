@@ -9,12 +9,14 @@ import Result from "./components/Result.js";
 import History from "./components/History.js";
 import HistoryDetails from "./components/HistoryDetails.js";
 import "./App.css";
+import { exportUsersToDjango } from './api';
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeflex/primeflex.css";
 import { httpClient } from './components/HttpClient';
 import Keycloak from 'keycloak-js';
 import useCSRFToken from './hook/useCSRFToken'; // Import the custom hook
+import axios from 'axios';
 
 const initOptions = {
   url: 'http://localhost:8080/',
@@ -22,7 +24,7 @@ const initOptions = {
   clientId: 'myclient',
 };
 
-import axios from 'axios';
+
 
 // Fetch CSRF token when the app starts
 const fetchCSRFToken = async () => {
@@ -63,7 +65,20 @@ export default function App() {
           window.location.reload();
         } else {
           console.info('Authenticated');
-          httpClient.defaults.headers.common['Authorization'] = `Bearer ${kc.token}`;
+
+          // Call the export function to sync users
+          exportUsersToDjango(kc.token)
+            .then((data) => {
+              if (data.status === 'success') {
+                console.log('Users exported successfully:', data.message);
+              } else {
+                console.error('Error exporting users:', data.message);
+              }
+            })
+            .catch((error) => {
+              console.error('Failed to export users:', error);
+            });
+
           kc.onTokenExpired = () => {
             console.log('Token expired. Refreshing...');
             kc.updateToken(30).catch(() => {
@@ -72,6 +87,7 @@ export default function App() {
             });
           };
           setKeycloakInitialized(true);
+
         }
       })
       .catch((error) => {
