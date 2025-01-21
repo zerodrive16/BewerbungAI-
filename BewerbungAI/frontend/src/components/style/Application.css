@@ -3,6 +3,13 @@
     justify-content: center;
     padding: 2rem;
 }
+.error_message{
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+    front-size: 25px;
+    color: #d90429;
+}
 
 .job_info{
     display:flex;

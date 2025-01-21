@@ -18,6 +18,11 @@ function Application(){
       job_field_name:"",
       job: ""
     });
+
+  const [loading, setLoading] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false); // Track submission status
+  const [error, setError] = useState(""); // Store error message
+
   const job_content = [
     {
       id: 1,
@@ -105,6 +110,15 @@ function Application(){
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (isSubmitted) {
+      setError("The form has already been submitted.");
+      return;
+    }
+    setLoading(true);
+    setIsSubmitted(true);
+    setError(""); // Reset any previous error
+    console.log("Clicked");
+
     try {
       const csrfToken = getCSRFToken();
       if (!csrfToken) {
@@ -123,10 +137,14 @@ function Application(){
       }
 
       const data = await response.json();
+
       navigate('/result');
       console.log(data); // Process the response data
     } catch (err) {
       console.error('Error:', err);
+    }finally {
+      // Set loading to false after the submission is complete or failed
+      setLoading(false);
     }
   };
 
@@ -134,6 +152,7 @@ function Application(){
   <div className="box">
     <Navbar />
     <div className="main">
+      {error && <div className="error_message">{error}</div>}
       <h3 className="title">Job description </h3>
       <form onSubmit={handleSubmit} className="job_info">
         <div className="job_info_first">
@@ -149,17 +168,18 @@ function Application(){
               value={inputValue[job_content.name]}
               required={job_content.required}
               onChange={handleChange}
+              disabled={isSubmitted}
             />
           </div>
         ))}
         </div>
         <div className="job_info_input">
-          <textarea className="job_info_content col-7" label="Job descripbtion" type="text" name="job" value={inputValue.job} onChange={handleChange} placeholder="Job descripbtion" required></textarea>
+          <textarea className="job_info_content col-7" label="Job descripbtion" type="text" name="job" value={inputValue.job} onChange={handleChange} placeholder="Job descripbtion" disabled={isSubmitted}  required></textarea>
         </div>
         <div className="job_info_button">
-          <Button colSize="col" colNumber="2" type="submit">
-            Submit
-          </Button>
+           <Button colSize="col" colNumber="2" type="submit" disabled={loading}>
+              {loading ? "Loading..." : "Submit"}
+            </Button>
         </div>
       </form>
     </div>
