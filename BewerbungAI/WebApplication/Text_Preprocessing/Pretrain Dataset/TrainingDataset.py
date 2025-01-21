@@ -82,8 +82,8 @@ def fineTuneGPT2(model, tokenizer, dataset_file, trained_file):
 
 if __name__ == '__main__':
     # Calling the dataset
-    dataset_file = "datasets/dataset2.json"
-    trained_file = "datasets/finetuned_model"
+    dataset_file = "../datasets/dataset2.json"
+    trained_file = "../datasets/finetuned_model"
 
     # Setting up the GPT-2 model and tokenizer
     model, tokenizer = loadModelAndTokenizer()

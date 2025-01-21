@@ -11,8 +11,7 @@ def databaseStorage(resume_data, application_data, app_final, personal_final, AI
         print("Error in parsing")
         return None
 
-
-    print("Start")
+    # Parse all the Data to the Attributes in the Database
     data_instance = Data(
         firstname=resume_data['first_name'],
         lastname=resume_data['last_name'],
@@ -37,8 +36,8 @@ def databaseStorage(resume_data, application_data, app_final, personal_final, AI
         jobApplicationContent=AIOutput
     )
 
+    # Saving the instance
     data_instance.save()
-    print("Data saved")
     return data_instance
 
 

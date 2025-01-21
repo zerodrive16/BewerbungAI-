@@ -5,7 +5,8 @@ from transformers import pipeline
 summarizer = pipeline("summarization", model="t5-small")
 
 
-def textSummarizationJobDescription(text):
+# Summarizes the Job Description
+async def textSummarizationJobDescription(text):
     input_length = len(text.split())
     # Skip the summarization if it's less than 75 words
     if input_length <= 75:
@@ -15,7 +16,8 @@ def textSummarizationJobDescription(text):
         return summary[0]['summary_text']
 
 
-def textSummarizationPersonalInformation(text):
+# Summarizes the Personal Information
+async def textSummarizationPersonalInformation(text):
     input_length = len(text.split())
     # Skip the summarization if it's less than 50 words
     if input_length <= 50:

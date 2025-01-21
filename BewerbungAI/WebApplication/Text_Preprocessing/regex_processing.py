@@ -1,6 +1,7 @@
 import re
 
 
+# performs the Regular Expression for various user input fields
 def performRegex(text):
     if not isinstance(text, str):
         text = str(text)

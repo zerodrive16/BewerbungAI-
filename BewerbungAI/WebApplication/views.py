@@ -9,25 +9,25 @@ from .models import Data
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import DataSerializer
-#from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 
+# Imports needed to format the job description and personal information to a Job Application Letter
 from .Text_Preprocessing.spacy_summarizer import textSummarizationJobDescription, textSummarizationPersonalInformation
 from .Text_Preprocessing.openai_request import openAIRequest
 from .Text_Preprocessing.regex_processing import performRegex
 from .Text_Preprocessing.storeDatabase import databaseStorage
 
 
-# Create your views here.
-
+# Store the results here
 resume_data = {}
 application_data = {}
-file_data ={}
+file_data = {}
 
-
+# Redirect to the index.html to open up the Web Application
 def home(request):
     return render(request, 'index.html')
 
 
+# Serializing the Instances in the Database to JSON
 @api_view(['GET'])
 def dataset_api(request):
     data = Data.objects.all()
@@ -41,11 +41,13 @@ def dataset_api(request):
     return Response(data_serialized.data)
 
 
+# CSRF Token request
 def get_csrf_token(request):
     csrf_token = get_token(request)
     return JsonResponse({'csrfToken': csrf_token})
 
 
+# Retrieval of personal information in endpoint /resume/api
 def resume_api(request):
     global resume_data
 
@@ -97,6 +99,7 @@ def resume_api(request):
         return JsonResponse({'error': 'Method not allowed'}, status=405)
 
 
+# Retrieval of job description in endpoint /application/api
 def application_api(request):
     global application_data
 
@@ -122,7 +125,9 @@ def application_api(request):
                 'job': job
             }
 
-            AIOutput, app_final, personal_final = generatedJobApplicationLetter(resume_data, application_data)
+            AIOutput, app_final, personal_final = asyncio.run(
+                generatedJobApplicationLetter(resume_data, application_data)
+            )
             print(AIOutput)
 
             databaseStorage(resume_data, application_data, app_final, personal_final, AIOutput)
@@ -141,8 +146,9 @@ def application_api(request):
         return JsonResponse({'error': 'Method not allowed'}, status=405)
 
 
-def generatedJobApplicationLetter(resume_data, application_data):
-    # Consideration of both finished API's (with data)
+# Generates the job application letter
+async def generatedJobApplicationLetter(resume_data, application_data):
+    # Consideration of both finished APIs (with data)
 
     # Text Preprocessing Job Description
     # Summarize specific fields
@@ -157,7 +163,7 @@ def generatedJobApplicationLetter(resume_data, application_data):
             if key in jDFieldsSummarize:
                 jDResults[key] = {
                     "processed": jDProcessedValue,
-                    "summary": textSummarizationJobDescription(jDProcessedValue)
+                    "summary": await textSummarizationJobDescription(jDProcessedValue)
                 }
             else:
                 jDResults[key] = jDProcessedValue
@@ -180,7 +186,7 @@ def generatedJobApplicationLetter(resume_data, application_data):
             if key in pIFieldsSummarize:
                 pIResults[key] = {
                     "processed": pIProcessedValue,
-                    "summary": textSummarizationPersonalInformation(pIProcessedValue)
+                    "summary": await textSummarizationPersonalInformation(pIProcessedValue)
                 }
             else:
                 pIResults[key] = pIProcessedValue
