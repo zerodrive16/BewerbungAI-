@@ -1,6 +1,7 @@
 import json
 import asyncio
 import subprocess
+import requests
 
 from django.shortcuts import render
 from django.http import JsonResponse
@@ -16,6 +17,8 @@ from .Text_Preprocessing.openai_request import openAIRequest
 from .Text_Preprocessing.regex_processing import performRegex
 from .Text_Preprocessing.storeDatabase import databaseStorage
 
+from django.views.decorators.csrf import csrf_exempt
+from .models import UserProfile  # Import your UserProfile model
 
 # Store the results here
 resume_data = {}
@@ -232,3 +235,43 @@ def download(request):
     # Fallback for unsupported methods
     return Response({"error": "Method not allowed"}, status=405)
 
+@csrf_exempt  # Use with caution; it's better to handle CSRF tokens properly
+def export_users_from_keycloak(request):
+    if request.method == 'POST':  # Only allow POST requests
+        token = request.META.get('HTTP_AUTHORIZATION').split()[1]  # Get the bearer token
+
+        # Fetch users from Keycloak
+        url = "http://localhost:8080/admin/realms/myrealm/users"
+        headers = {
+            "Authorization": f"Bearer {token}",
+            "Content-Type": "application/json",
+        }
+
+        response = requests.get(url, headers=headers)
+
+        if response.status_code == 200:
+            users = response.json()
+            for user in users:
+                # Extract the necessary fields for your UserProfile model
+                keycloak_id = user['id']
+                username = user.get('username')
+                email = user.get('email')
+                first_name = user.get('firstName', '')
+                last_name = user.get('lastName', '')
+
+                # Save or update the user profile in the database
+                UserProfile.objects.update_or_create(
+                    keycloak_id=keycloak_id,
+                    defaults={
+                        'username': username,
+                        'email': email,
+                        'first_name': first_name,
+                        'last_name': last_name,
+                    }
+                )
+
+            return JsonResponse({"status": "success", "message": "Users exported successfully."})
+        else:
+            return JsonResponse({"status": "error", "message": "Failed to fetch users from Keycloak."}, status=response.status_code)
+    else:
+        return JsonResponse({"status": "error", "message": "Invalid request method."}, status=400)

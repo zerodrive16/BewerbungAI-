@@ -1,6 +1,7 @@
 from django.urls import path, re_path
 from . import views
 from django.views.generic import TemplateView
+from .views import export_users_from_keycloak
 
 """
 Functions home and runMLScript(staying after the view.)
@@ -20,6 +21,7 @@ urlpatterns = [
     path('dataset/api', views.dataset_api, name='dataset_api'),
     # Download endpoint to retrieve the output as a file
     path('download/api', views.download, name='download'),
+    path('export-users/', export_users_from_keycloak, name='export_users'),
     # Open up React Template Localhost
     re_path(r'^.*$', TemplateView.as_view(template_name='index.html')),
 ]
