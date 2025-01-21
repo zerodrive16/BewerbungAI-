@@ -238,24 +238,53 @@ def download(request):
 @csrf_exempt  # Use with caution; it's better to handle CSRF tokens properly
 def export_users_from_keycloak(request):
     if request.method == 'POST':  # Only allow POST requests
-        token = request.META.get('HTTP_AUTHORIZATION').split()[1]  # Get the bearer token
+        try:
+            # Step 1: Fetch Access Token from Keycloak
+            token_url = "http://localhost:8080/realms/master/protocol/openid-connect/token"
+            client_id = "admin-cli"
+            client_secret = "37Vq5vy0ORY1APfxjCzFIejwBBqgae68"
+            payload = {
+                "username": "admin1",  # Replace with your Keycloak admin username
+                "password": "admin1",  # Replace with your Keycloak admin password
+                "grant_type": "password",
+                "client_id": client_id,
+                "client_secret": client_secret,
+            }
 
-        # Fetch users from Keycloak
-        url = "http://localhost:8080/admin/realms/myrealm/users"
-        headers = {
-            "Authorization": f"Bearer {token}",
-            "Content-Type": "application/json",
-        }
+            token_response = requests.post(token_url, data=payload)
+            if token_response.status_code != 200:
+                return JsonResponse(
+                    {"status": "error", "message": "Failed to fetch access token from Keycloak."},
+                    status=token_response.status_code
+                )
 
-        response = requests.get(url, headers=headers)
+            access_token = token_response.json().get('access_token')
+            if not access_token:
+                return JsonResponse(
+                    {"status": "error", "message": "Access token is missing from the response."},
+                    status=500
+                )
 
-        if response.status_code == 200:
-            users = response.json()
+            # Step 2: Fetch Users from Keycloak
+            users_url = "http://localhost:8080/admin/realms/myrealm/users"
+            headers = {
+                "Authorization": f"Bearer {access_token}",
+                "Content-Type": "application/json",
+            }
+
+            users_response = requests.get(users_url, headers=headers)
+            if users_response.status_code != 200:
+                return JsonResponse(
+                    {"status": "error", "message": "Failed to fetch users from Keycloak."},
+                    status=users_response.status_code
+                )
+
+            users = users_response.json()
             for user in users:
-                # Extract the necessary fields for your UserProfile model
+                # Step 3: Extract the necessary fields for your UserProfile model
                 keycloak_id = user['id']
                 username = user.get('username')
-                email = user.get('email')
+                email = user.get('email', '')
                 first_name = user.get('firstName', '')
                 last_name = user.get('lastName', '')
 
@@ -271,7 +300,8 @@ def export_users_from_keycloak(request):
                 )
 
             return JsonResponse({"status": "success", "message": "Users exported successfully."})
-        else:
-            return JsonResponse({"status": "error", "message": "Failed to fetch users from Keycloak."}, status=response.status_code)
+
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=500)
     else:
         return JsonResponse({"status": "error", "message": "Invalid request method."}, status=400)

@@ -10,9 +10,9 @@ import History from "./components/History.js";
 import HistoryDetails from "./components/HistoryDetails.js";
 import "./App.css";
 import { exportUsersToDjango } from './api';
-import "primereact/resources/themes/lara-light-indigo/theme.css";
-import "primereact/resources/primereact.min.css";
-import "primeflex/primeflex.css";
+//import "primereact/resources/themes/lara-light-indigo/theme.css";
+//import "primereact/resources/primereact.min.css";
+//import "primeflex/primeflex.css";
 import { httpClient } from './components/HttpClient';
 import Keycloak from 'keycloak-js';
 import useCSRFToken from './hook/useCSRFToken'; // Import the custom hook
@@ -23,7 +23,6 @@ const initOptions = {
   realm: 'myrealm',
   clientId: 'myclient',
 };
-
 
 
 // Fetch CSRF token when the app starts
