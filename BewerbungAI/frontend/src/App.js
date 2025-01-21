@@ -25,7 +25,6 @@ const initOptions = {
 };
 
 
-
 // Fetch CSRF token when the app starts
 const fetchCSRFToken = async () => {
   try {
