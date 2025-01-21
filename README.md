@@ -57,7 +57,23 @@ After this the folder requirements.txt is accessible which can be downloaded
 pip install -r requirements.txt
 ```
 
-### 7. Starting the program 
+### 7. Docker Setup 
+Set up docker first and enable running 
+Username: Admin
+Password: Admin
+Run this command in an IDE Terminal on the same level as the folders: 
+keycloak-config-cli-26.0.5.jar
+realm.json
+```bash
+docker run -p 8080:8080 -e KC_BOOTSTRAP_ADMIN_USERNAME=admin -e KC_BOOTSTRAP_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:26.0.7 start-dev
+```
+
+Now create a new Terminal and run this command
+```bash
+java -jar keycloak-config-cli-26.0.5.jar \ --keycloak.url=http://localhost:8080/ \ --keycloak.user=admin \ --keycloak.password=admin \ --import.files.locations=./realm.json
+```
+
+### 8. Starting the program 
 Almost done now. It is important to run the react build and later run the django server if problems occurr
 with "react-scripts" the dependency needs to be added in the *package.json*. 
 ```bash
@@ -74,7 +90,6 @@ python manage.py runserver
 }
 ```
 ---
-
 ## 🎉 You are All Set! 
 Your application is ready to use. If any issues encounter, feel free to raise an issue in the Github Repository (https://github.com/zerodrive16/BewerbungAI-) 
 
