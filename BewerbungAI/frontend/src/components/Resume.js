@@ -28,7 +28,7 @@ function Resume() {
     interests: ""
   });
 
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState("");
 
   useEffect(() => {
     const today = new Date();
@@ -40,14 +40,14 @@ function Resume() {
 }, []);
 
   const fields = [
-    { id: 1, label: "First name", name: "first_name", required: true, maxLength: 20 },
-    { id: 2, label: "Last name", name: "last_name", required: true, maxLength: 20 },
-    { id: 3, label: "Date of birth (DD.MM.YYYY)", name: "birthday", required: true, maxLength: 10 },
-    { id: 4, label: "Address", name: "address", required: true, maxLength: 50 },
-    { id: 5, label: "City", name: "city", required: true, maxLength: 50 },
-    { id: 6, label: "Zipcode", name: "zipcode", required: true, maxLength: 10 },
-    { id: 7, label: "Phone", name: "phone", required: true, maxLength: 17 },
-    { id: 8, label: "E-Mail", name: "email", required: false, maxLength: 100 },
+    { id: 1, label: "First name", type: "text", name: "first_name", required: true, maxLength: 20, pattern: ".*"},
+    { id: 2, label: "Last name", type: "text", name: "last_name", required: true, maxLength: 20, pattern: ".*"},
+    { id: 3, label: "Date of birth (DD.MM.YYYY)", type: "text", name: "birthday", required: true, maxLength: 10, pattern: "([0-2][0-9]|3[01])\.[0-1][0-9]\.[0-9]{4}",  title:"DD.MM.YYYY"},
+    { id: 4, label: "Address", name: "address", type: "text", required: true, maxLength: 50, pattern: ".*"},
+    { id: 5, label: "City", name: "city", type: "text", required: true, maxLength: 50, pattern: ".*"},
+    { id: 6, label: "Zipcode", name: "zipcode", type: "text", required: true, maxLength: 10, pattern: ".*"},
+    { id: 7, label: "Phone", name: "phone", type: "text", required: true, maxLength: 17, pattern: ".*"},
+    { id: 8, label: "E-Mail", type: "email", name: "email", required: false, maxLength: 100},
   ];
   const textarea = [
     { id: 10, label: "Work experience", name: "experience", required: true, maxLength: 200 },
@@ -92,39 +92,43 @@ function Resume() {
       <div className="main">
         <h3 className="title">Personal information</h3>
         <form onSubmit={handleSubmit} className="pers_info">
-          <div className="pers_info_input">
-            <div className="pers_info_field">
-              <input
-                className="input"
-                label="Date"
-                type="text"
-                name="date"
-                value={inputValue.date}
-                required
-                onChange={handleChange}
-              />
+          <div className="pers_info_input d-md-flex col-12 col-lg-10 col-xl-8 justify-content-center align-items-start">
+            <div className="pers_info_field col-12 col-md-6">
+              <div className="input-form">
+                <input
+                  className="input col-6"
+                  label="Date"
+                  type="text"
+                  name="date"
+                  value={inputValue.date}
+                  required
+                  onChange={handleChange}
+                />
+              </div>
               {fields.map(field => (
                 <div key={field.id} className="input-form">
                   <input
-                    className="input"
+                    className="input col-6"
                     label={field.label}
-                    type="text"
+                    type={field.type}
                     name={field.name}
                     placeholder={field.label}
-                    maxLength={field.maxLength}
+                    maxlength={field.maxLength}
                     value={inputValue[field.name]}
                     required={field.required}
                     onChange={handleChange}
+                    pattern={field.pattern}
+                    title={field.title}
                   />
                   {errors[field.name] && <span className="error">{errors[field.name]}</span>}
                 </div>
               ))}
             </div>
-            <div className="pers_info_textarea">
+            <div className="pers_info_textarea col-12 col-md-6">
               {textarea.map(textarea => (
                 <div key={textarea.id} className="input-form">
                   <textarea
-                    className="per_info_content"
+                    className="per_info_content col-6"
                     label={textarea.label}
                     type="text"
                     name={textarea.name}
@@ -139,8 +143,8 @@ function Resume() {
               ))}
             </div>
           </div>
-          <div className="pers_info_button">
-            <Button colSize="col" colNumber="2" type="submit" style={{ border: "1px solid #525252" }}>
+          <div className="pers_info_button d-flex justify-content-center justify-content-md-end">
+            <Button col="12" type="submit">
               Submit
             </Button>
           </div>

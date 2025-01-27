@@ -24,8 +24,7 @@
 .steps_title{
     color: #525252;
     font-size: 30px;
-    margin: 30px;
-
+    margin: 3rem;
 }
 
 .steps_list{
@@ -49,4 +48,31 @@
 
 .header-link{
     color: #525252;
+}
+
+
+.resp_button{
+    display:none;
+}
+
+@media screen and (max-width: 576px) {
+    .home-header-text{
+        font-size: 1.2rem;
+    }
+    .content-header {
+        margin-bottom: 2rem;
+        margin-top: 3rem;
+    }
+    .steps_list{
+        padding: 0;
+    }
+    .steps_title{
+        font-size: 1.6rem;
+    }
+    .start_button{
+        display:none;
+    }
+    .resp_button{
+        display: flex;
+    }
 }

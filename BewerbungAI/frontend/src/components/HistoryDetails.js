@@ -39,8 +39,12 @@ function HistoryDetails({ id, date, companyName, jobFieldName }) {
   console.log(jsonData);
   return (
     <div>
-      <h2 className="title">History Item Details</h2>
-      <div className="history_text download_preview">Date: {jsonData.jobApplicationContent}</div>
+      <Navbar />
+      <div className="history_details d-flex flex-column align-items-center p-4">
+        <h2 className="title">History Item Details</h2>
+        <div className="history_text download_preview">Date: {jsonData.jobApplicationContent}</div>
+      </div>
+      <Footer />
     </div>
   );
 }

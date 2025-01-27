@@ -35,7 +35,7 @@ def home(request):
 def dataset_api(request):
     data = Data.objects.all()
     if not data.exists():
-        return Response({"message": "No data found in the database"}, status=404)
+        return Response({"message": "No data found in the database"}, status=200)
 
     # Use the serializer to convert data into JSON
     data_serialized = DataSerializer(data, many=True)

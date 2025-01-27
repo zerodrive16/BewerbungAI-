@@ -155,16 +155,16 @@ function Application(){
       {error && <div className="error_message">{error}</div>}
       <h3 className="title">Job description </h3>
       <form onSubmit={handleSubmit} className="job_info">
-        <div className="job_info_first">
+        <div className="job_info_first col-12 col-lg-8 col-xl-7 col-xxl-6">
         {job_content.map((job_content) => (
-          <div key={job_content.id} className="input-form ">
-            <input className="input"
+          <div key={job_content.id} className="input-form col-12 col-sm-6 col-md-4">
+            <input className="input "
               label={job_content.label}
               type={job_content.type}
               name={job_content.name}
               placeholder={job_content.label}
               pattern={job_content.pattern}
-              maxLength={job_content.maxLength}
+              maxlength={job_content.maxLength}
               value={inputValue[job_content.name]}
               required={job_content.required}
               onChange={handleChange}
@@ -173,8 +173,8 @@ function Application(){
           </div>
         ))}
         </div>
-        <div className="job_info_input">
-          <textarea className="job_info_content col-7" label="Job descripbtion" type="text" name="job" value={inputValue.job} onChange={handleChange} placeholder="Job descripbtion" disabled={isSubmitted}  required></textarea>
+        <div className="job_info_input col-12 col-lg-8">
+          <textarea className="job_info_content col-10" label="Job descripbtion" type="text" name="job" value={inputValue.job} onChange={handleChange} placeholder="Job descripbtion" disabled={isSubmitted}  required></textarea>
         </div>
         <div className="job_info_button">
            <Button colSize="col" colNumber="2" type="submit" disabled={loading}>

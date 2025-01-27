@@ -17,20 +17,22 @@ function Home(){
       <Navbar />
       <div className="home-header d-flex flex-column justify-content-center">
         <div className="content-header">
-          <p className="col-4 d-flex text-align-center">
+          <p className="home-header-text col-7 col-md-4 d-flex text-align-center">
             Create your perfect resume in just a few minutes!
             Simply sign up, enter your details, and receive
             a professional document – fast, personalized,
             and free.
           </p>
-          <Button className="col-3" type="button">
-            <Link to="/resume" className="header-link no-decoration">Get started</Link>
-          </Button>
+          <div className="start_button">
+            <Button className="col-3" type="button">
+              <Link to="/resume" className="header-link no-decoration">Get started</Link>
+            </Button>
+          </div>
         </div>
       </div>
       <div className="steps main">
         <h2 className="steps_title">So erstellst du mit Name ein Anschreiben</h2>
-        <ul className="steps_list col-12">
+        <ul className="steps_list col-12 flex-column flex-md-row">
           {items.map(item => {
             const itemStyle = {
             backgroundPosition: 'center',
@@ -50,6 +52,11 @@ function Home(){
             );
           })}
         </ul>
+      <div className="resp_button">
+            <Button className="col-3" type="button">
+              <Link to="/resume" className="header-link no-decoration">Get started</Link>
+            </Button>
+          </div>
       </div>
       <Footer />
     </div>

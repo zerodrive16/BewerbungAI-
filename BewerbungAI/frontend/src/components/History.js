@@ -29,9 +29,19 @@ function History(){
 
   useEffect(() => {
     fetch("/dataset/api")
-      .then((response) => response.json())
-      .then((data) => setJsonData(data))
-      .catch((error) => console.error("Error fetching data:", error));
+      .then((response) => {
+        response.json()
+        console.log("Response" + response.json())
+      })
+      .then((data) => {
+        if(!data){
+            data = "No application letter generated!";
+        }
+        setJsonData(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      })
   }, []);
 
   const handleHistoryItemClick = (id) => {
@@ -41,15 +51,24 @@ function History(){
   return (
     <div className="download box">
       <Navbar />
-      <div className="main result">
+      <div className="main result col-12">
         <h3 className="title">History</h3>
-        <ul>
-        {jsonData.map((item) => (
-          <li className="history_items" key={item.id} onClick={() => handleHistoryItemClick(item.id)}>
-            {item.date}:  {item.companyName} - {item.jobFieldName}
-          </li>
-        ))}
-      </ul>
+        <div class="history_list d-flex flex-column align-items-center col-12 mb-3">
+        {Array.isArray(jsonData) ? (
+          jsonData.map((item) => (
+            <li className="history_items col-7" key={item.id} onClick={() => handleHistoryItemClick(item.id)}>
+              {item.date}:  {item.companyName} - {item.jobFieldName}
+            </li>
+          ))
+        ) : (
+        <>
+          <p className="no_history_item history_items col-7">{jsonData}</p>
+          <Button className="col-3" type="button">
+            <Link to="/resume" className="header-link no-decoration">Get started</Link>
+          </Button>
+        </>
+        )}
+      </div>
       </div>
       <Footer />
     </div>

@@ -33,7 +33,6 @@ function Result(){
     let lines = [];
     let currentLine = "";
     inputText.split(" ").forEach((word) => {
-      console.log(currentLine + word)
       if ((currentLine + word).length > maxLineLength) {
         lines.push(currentLine.trim());
         currentLine = word + " ";
@@ -83,9 +82,9 @@ function Result(){
   return (
     <div className="download box">
       <Navbar />
-      <div className="main result">
+      <div className="main result col-12">
         <h3 className="title">Application letter</h3>
-        <div className="download_preview">
+        <div className="download_preview col-10 col-md-12">
           <pre>{previewText}</pre>
         </div>
         <div className="download_button">

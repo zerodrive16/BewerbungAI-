@@ -1,8 +1,12 @@
 .history_items{
+    color: #525252;
     list-style: none;
     padding: 1rem;
     border: 1px solid;
     border-radius: 1rem;
     margin: 1rem;
     cursor: pointer;
+}
+.no_history_item{
+    margin-bottom: 3rem;
 }
