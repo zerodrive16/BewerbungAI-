@@ -236,10 +236,10 @@ def export_users_from_keycloak(request):
             # Step 1: Fetch Access Token from Keycloak
             token_url = "http://localhost:8080/realms/master/protocol/openid-connect/token"
             client_id = "admin-cli"
-            client_secret = "37Vq5vy0ORY1APfxjCzFIejwBBqgae68"
+            client_secret = "tMM0oz1KOxuNkVkyGcZkRWW70RGNnITF"
             payload = {
-                "username": "admin1",  # Replace with your Keycloak admin username
-                "password": "admin1",  # Replace with your Keycloak admin password
+                "username": "admin",  # Replace with your Keycloak admin username
+                "password": "admin",  # Replace with your Keycloak admin password
                 "grant_type": "password",
                 "client_id": client_id,
                 "client_secret": client_secret,
