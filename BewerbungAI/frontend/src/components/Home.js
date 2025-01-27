@@ -5,6 +5,8 @@ import Footer from "./Footer.js";
 import "./style/Home.css";
 import { Link } from 'react-router-dom';
 
+
+
 function Home(){
     const items = [
         {id: 1, title: "1. Fill out the form", img: "./static/media/form.png"},
@@ -12,6 +14,7 @@ function Home(){
         {id: 3, title: "3. Copy the job description", img: "./static/media/job.png"},
         {id: 4, title: "4. Generate application letter", img: "./static/media/generate.png"}
     ];
+
   return (
     <div className="box">
       <Navbar />

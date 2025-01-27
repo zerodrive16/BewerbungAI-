@@ -46,6 +46,7 @@ const fetchCSRFToken = async () => {
 // Call this function on page load or app initialization
 fetchCSRFToken();
 const kc = new Keycloak(initOptions);
+export { kc };
 // App Component
 export default function App() {
   const { csrfToken, error: csrfError } = useCSRFToken(); // Use the custom hook
@@ -99,7 +100,9 @@ export default function App() {
   }
 
   if (csrfError) {
-    return <div>Error: Unable to fetch CSRF token. Please try again later.</div>;
+    fetchCSRFToken();
+    console.log("Error: Unable to fetch CSRF token. Please try again later.")
+    //return <div>Error: Unable to fetch CSRF token. Please try again later.</div>;
   }
 
   // Render the application once authenticated
@@ -121,3 +124,4 @@ export default function App() {
     </Router>
   );
 }
+

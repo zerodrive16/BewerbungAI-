@@ -2,8 +2,32 @@ import React, {useState} from 'react';
 import "./style/Navbar.css";
 import { Button } from './Button';
 import { Link } from 'react-router-dom';
+import { kc } from '../App';
+import axios from 'axios';
 
 function Navbar(){
+     const fetchCSRFToken = async () => {
+  try {
+    const response = await axios.get('http://127.0.0.1:8000/get-csrf-token', {
+      withCredentials: true,  // Make sure credentials are included (cookies)
+    });
+    const csrfToken = response.data.csrfToken;
+
+    // Store the CSRF token globally, e.g., in sessionStorage
+    sessionStorage.setItem('csrfToken', csrfToken);
+
+    // Optionally, you can set it as a global Axios header here
+    axios.defaults.headers['X-CSRFToken'] = csrfToken;
+  } catch (error) {
+    console.error('Error fetching CSRF token:', error);
+  }
+};
+  const handleLogout = () => {
+    fetchCSRFToken();
+    kc.logout({
+      redirectUri: "http://localhost:8000", // Optional: Redirect the user to a specific page after logout
+    });
+  };
     return(
     <nav className="navbar navbar-expand-lg col-12">
        <h1 className="navbar-brand col-2">BewerbungAI</h1>
@@ -25,8 +49,14 @@ function Navbar(){
                  History</Link>
               </li>
               <li className="nav-item">
-                 <Link to="/aboutUs" className="nav-link">
-                 About us</Link>
+                 <a href="http://localhost:8080/realms/myrealm/account/" className="nav-link">
+                 Profile
+                 </a>
+              </li>
+              <li className="nav-item">
+                 <button onClick={handleLogout} className="nav-link">
+                 Sign Out
+                 </button>
               </li>
            </ul>
        </div>
