@@ -32,7 +32,14 @@ class Data(models.Model):
     # Generated JobApplication letter
     jobApplicationContent = models.TextField()
 
-    # Only necessary for /admin endpoint to give it a naming
+    # Foreign Keys to UserProfile
+    user_profile = models.ForeignKey(
+        'UserProfile',
+        on_delete=models.CASCADE,
+        related_name='job_applications',
+        null=True
+    )
+
     def __str__(self):
         return self.jobFieldName
 
@@ -40,7 +47,7 @@ class Data(models.Model):
 class UserProfile(models.Model):
     keycloak_id = models.CharField(max_length=255, unique=True)
     username = models.CharField(max_length=150)
-    email = models.EmailField(blank=True, null=True)
+    email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=150, blank=True, null=True)
     last_name = models.CharField(max_length=150, blank=True, null=True)
 
