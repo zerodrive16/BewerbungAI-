@@ -19,6 +19,8 @@ urlpatterns = [
     path('application/api', views.application_api, name='application_api'),
     # Dataset endpoint containing Personal Information, Job Description and AI-generated Job Application Letter
     path('dataset/api', views.dataset_api, name='dataset_api'),
+    # User Profile dataset containing the login credentials
+    path('userProfile/api', views.user_profile_api, name='user_profile_api'),
     # Download endpoint to retrieve the output as a file
     path('download/api', views.download, name='download'),
     path('export-users/', export_users_from_keycloak, name='export_users'),

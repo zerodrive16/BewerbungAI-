@@ -9,7 +9,7 @@ from django.middleware.csrf import get_token
 from .models import Data
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import DataSerializer
+from .serializers import DataSerializer, UserProfileSerializer
 
 # Imports needed to format the job description and personal information to a Job Application Letter
 from .Text_Preprocessing.spacy_summarizer import textSummarizationJobDescription, textSummarizationPersonalInformation
@@ -18,7 +18,8 @@ from .Text_Preprocessing.regex_processing import performRegex
 from .Text_Preprocessing.storeDatabase import databaseStorage
 
 from django.views.decorators.csrf import csrf_exempt
-from .models import UserProfile  # Import your UserProfile model
+from .models import UserProfile
+
 
 # Store the results here
 resume_data = {}
@@ -42,6 +43,13 @@ def dataset_api(request):
 
     # Return the serialized data as JSON in the response
     return Response(data_serialized.data)
+
+
+@api_view(['GET'])
+def user_profile_api(request):
+    user_data = UserProfile.objects.all()
+    serialized_data = UserProfileSerializer(user_data, many=True)
+    return Response(serialized_data.data)
 
 
 # CSRF Token request
