@@ -128,7 +128,7 @@ function Resume() {
               {textarea.map(textarea => (
                 <div key={textarea.id} className="input-form">
                   <textarea
-                    className="per_info_content col-6"
+                    className="per_info_content col-11"
                     label={textarea.label}
                     type="text"
                     name={textarea.name}

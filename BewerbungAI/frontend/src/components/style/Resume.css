@@ -25,7 +25,7 @@
     resize: none;
     word-wrap: break-word;
     white-space: pre-wrap;
-    min-height: 5rem;
+    min-height: 8rem;
 }
 .pers_info_field, .pers_info_textarea {
     display: flex;
