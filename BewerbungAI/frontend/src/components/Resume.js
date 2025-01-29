@@ -50,10 +50,10 @@ function Resume() {
     { id: 8, label: "E-Mail", type: "email", name: "email", required: false, maxLength: 100},
   ];
   const textarea = [
-    { id: 10, label: "Work experience", name: "experience", required: true, maxLength: 200 },
-    { id: 11, label: "Education", name: "education", required: true, maxLength: 200 },
-    { id: 12, label: "Skills", name: "skills", required: true, maxLength: 200 },
-    { id: 13, label: "Interests", name: "interests", required: true, maxLength: 200 }
+    { id: 10, label: "Work experience", name: "experience", required: true, maxLength: 300 },
+    { id: 11, label: "Education", name: "education", required: true, maxLength: 300 },
+    { id: 12, label: "Skills", name: "skills", required: true, maxLength: 300 },
+    { id: 13, label: "Interests", name: "interests", required: true, maxLength: 300 }
   ];
 
   const handleChange = (e) => {
