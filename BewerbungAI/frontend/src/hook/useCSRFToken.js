@@ -7,6 +7,10 @@ const useCSRFToken = () => {
 
   useEffect(() => {
     const fetchCSRFToken = async () => {
+      const match = document.cookie.match(new RegExp('(^| )csrftoken=([^;]+)'));
+      if (match) {
+        return match[2]; // Return the CSRF token from the cookie
+      }
       try {
         const response = await axios.get('http://127.0.0.1:8000/get-csrf-token', {
           withCredentials: true, // Ensure cookies are included

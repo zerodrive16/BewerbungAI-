@@ -25,6 +25,7 @@ from .models import UserProfile
 resume_data = {}
 application_data = {}
 file_data = {}
+current_email = ""
 
 # Redirect to the index.html to open up the Web Application
 def home(request):
@@ -245,6 +246,7 @@ def download(request):
 
 @csrf_exempt  # Use with caution; it's better to handle CSRF tokens properly
 def export_users_from_keycloak(request):
+    global current_email
     if request.method == 'POST':  # Only allow POST requests
         try:
             # Step 1: Fetch Access Token from Keycloak
@@ -296,6 +298,7 @@ def export_users_from_keycloak(request):
                 first_name = user.get('firstName', '')
                 last_name = user.get('lastName', '')
                 print(f"email:{email}")
+                current_email=email
                 # Save or update the user profile in the database
                 UserProfile.objects.update_or_create(
                     keycloak_id=keycloak_id,
@@ -314,3 +317,11 @@ def export_users_from_keycloak(request):
             return JsonResponse({"status": "error", "message": str(e)}, status=500)
     else:
         return JsonResponse({"status": "error", "message": "Invalid request method."}, status=400)
+
+def get_current_email(request):
+    global current_email
+    print(f"current_email:{current_email}")
+    if current_email:
+        return JsonResponse({"current_email": current_email})
+    else:
+        return JsonResponse({"status": "error", "message": "No email found"}, status=404)

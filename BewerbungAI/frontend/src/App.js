@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate, Link, useLocation } from 'react-router-dom';
 import Home from "./components/Home.js";
 import AboutUs from "./components/AboutUs.js";
 import Resume from "./components/Resume.js";
@@ -17,6 +17,7 @@ import { httpClient } from './components/HttpClient';
 import Keycloak from 'keycloak-js';
 import useCSRFToken from './hook/useCSRFToken'; // Import the custom hook
 import axios from 'axios';
+import { UserContext } from './components/UserContext';
 
 const initOptions = {
   url: 'http://localhost:8080/',
@@ -27,8 +28,13 @@ const initOptions = {
 
 // Fetch CSRF token when the app starts
 const fetchCSRFToken = async () => {
+  console.log(document.cookie);
+  const match = document.cookie.match(new RegExp('(^| )csrftoken=([^;]+)'));
+  if (match) {
+    return match[2]; // Return the CSRF token from the cookie
+  }
   try {
-    const response = await axios.get('http://127.0.0.1:8000/get-csrf-token', {
+    const response = await axios.get('http://localhost:8000/get-csrf-token', {
       withCredentials: true,  // Make sure credentials are included (cookies)
     });
     const csrfToken = response.data.csrfToken;
@@ -51,6 +57,10 @@ export { kc };
 export default function App() {
   const { csrfToken, error: csrfError } = useCSRFToken(); // Use the custom hook
   const [keycloakInitialized, setKeycloakInitialized] = useState(false);
+  const [user, setUser] = useState(null);
+  const [showHomeLink, setShowHomeLink] = useState(false);
+
+
 
   useEffect(() => {
     kc.init({
@@ -58,6 +68,7 @@ export default function App() {
       checkLoginIframe: false,
       pkceMethod: 'S256',
       prompt: 'login', // Force login on each session start
+      redirectUri: "http://localhost:8000/home"
     })
       .then((auth) => {
         if (!auth) {
@@ -65,6 +76,23 @@ export default function App() {
           window.location.reload();
         } else {
           console.info('Authenticated');
+
+          kc.loadUserInfo().then(userInfo => {
+            console.log(userInfo); // Log user info
+            setUser(userInfo);     // Set user state
+            if (!localStorage.getItem('lastLoginPath')) {
+              localStorage.setItem('lastLoginPath', window.location.pathname);
+              setShowHomeLink(true);
+              // Trigger click programmatically after render
+              setTimeout(() => {
+                const link = document.querySelector('.auto-login-link');
+                if (link) link.click();
+              }, 0);
+            }
+          }).catch(error => {
+            console.error('Error loading user info:', error);
+            setUser(null);         // Handle failure case
+          });
 
           // Call the export function to sync users
           exportUsersToDjango(kc.token)
@@ -107,21 +135,23 @@ export default function App() {
 
   // Render the application once authenticated
   return (
-    <Router>
-      <div className="content">
-        <Routes>
-          <Route path="/home" element={<Home />} />
-          <Route path="/resume" element={<Resume />} />
-          <Route path="/application" element={<Application />} />
-          <Route path="/aboutUs" element={<AboutUs />} />
-          <Route path="/output" element={<Output />} />
-          <Route path="/" element={<Navigate to="/home" />} /> {/* Redirect to Home */}
-          <Route path="/result" element={<Result />} />
-          <Route path="/history" element={<History />} />
-          <Route path="/historyDetails/:id" element={<HistoryDetails />} />
-        </Routes>
-      </div>
-    </Router>
+    <UserContext.Provider value={user}>
+      <Router>
+        <div className="content">
+          <Routes>
+            <Route path="/home" element={<Home />} />
+            <Route path="/resume" element={<Resume />} />
+            <Route path="/application" element={<Application />} />
+            <Route path="/aboutUs" element={<AboutUs />} />
+            <Route path="/output" element={<Output />} />
+            <Route path="/" element={<Navigate to="/home" />} /> {/* Redirect to Home */}
+            <Route path="/result" element={<Result />} />
+            <Route path="/history" element={<History />} />
+            <Route path="/historyDetails/:id" element={<HistoryDetails />} />
+          </Routes>
+        </div>
+      </Router>
+    </UserContext.Provider>
   );
 }
 

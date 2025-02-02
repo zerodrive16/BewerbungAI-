@@ -24,6 +24,7 @@ urlpatterns = [
     # Download endpoint to retrieve the output as a file
     path('download/api', views.download, name='download'),
     path('export-users/', views.export_users_from_keycloak, name='export_users_from_keycloak'),
+    path('email', views.get_current_email, name='get_current_email'),
     # Open up React Template Localhost
     re_path(r'^.*$', TemplateView.as_view(template_name='index.html')),
 ]

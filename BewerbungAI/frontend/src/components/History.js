@@ -4,11 +4,13 @@ import Navbar from "./Navbar.js";
 import Footer from "./Footer.js";
 import Button from "./Button.js";
 import "./style/History.css";
+import { useUser } from './UserContext';
 
 function History(){
   const [jsonData, setJsonData] = useState([]);
   const [previewText, setPreviewText] = useState("");
   const navigate = useNavigate();
+  const user = useUser(null);
 
   const getCSRFToken = () => {
       // First, try to get the token from sessionStorage
@@ -30,19 +32,37 @@ function History(){
   useEffect(() => {
     fetch("/dataset/api")
       .then((response) => {
-        response.json()
-        console.log("Response" + response.json())
+        if (response.ok && response.headers.get("Content-Type").includes("application/json")) {
+          return response.json();
+        }
+        throw new Error("Not a JSON response");
       })
       .then((data) => {
         if(!data){
             data = "No application letter generated!";
         }
-        setJsonData(data);
+        console.log(data);
+        let result = []
+        if(user.email){
+          for (let i = 0; i < Object.keys(data).length; i++) {
+            console.log("email, user.email, boolean",data[i].email, user.email, data[i].email === user.email);
+            if (data[i].email === user.email) {
+              result.push(data[i]);
+            }
+          }
+        }
+        console.log("result:", result);
+        if(result.length === 0){
+          result = "No application letter generated!";
+        }
+        setJsonData(result);
       })
-      .catch((error) => {
+       .catch((error) => {
         console.error("Error fetching data:", error);
       })
   }, []);
+
+
 
   const handleHistoryItemClick = (id) => {
     navigate(`/historyDetails/${id}`);

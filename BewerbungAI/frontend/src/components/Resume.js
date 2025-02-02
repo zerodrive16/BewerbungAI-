@@ -6,12 +6,15 @@ import Footer from "./Footer.js";
 import Button from "./Button.js";
 import "./style/Resume.css";
 import { useNavigate } from "react-router";
+import { useUser } from './UserContext';
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000';
 axios.defaults.withCredentials = true;
 
 function Resume() {
   const navigate = useNavigate();
+  const [jsonEmail, setJsonEmail] = useState([]);
+  const user = useUser(null);
   const [inputValue, setInputValue] = useState({
     first_name: "",
     last_name: "",
@@ -30,24 +33,16 @@ function Resume() {
 
   const [errors, setErrors] = useState("");
 
-  useEffect(() => {
-    const today = new Date();
-    const day = String(today.getDate()).padStart(2, '0');  // Ensure two digits for day
-    const month = String(today.getMonth() + 1).padStart(2, '0');  // Ensure two digits for month (months are 0-indexed)
-    const year = today.getFullYear();
-    const formattedDate = `${day}.${month}.${year}`;  // Format: DD.MM.YYYY
-    setInputValue(prev => ({ ...prev, date: formattedDate }));
-}, []);
-
   const fields = [
-    { id: 1, label: "First name", type: "text", name: "first_name", required: true, maxLength: 20, pattern: ".*"},
-    { id: 2, label: "Last name", type: "text", name: "last_name", required: true, maxLength: 20, pattern: ".*"},
-    { id: 3, label: "Date of birth (DD.MM.YYYY)", type: "text", name: "birthday", required: true, maxLength: 10, pattern: "([0-2][0-9]|3[01])\.[0-1][0-9]\.[0-9]{4}",  title:"DD.MM.YYYY"},
-    { id: 4, label: "Address", name: "address", type: "text", required: true, maxLength: 50, pattern: ".*"},
-    { id: 5, label: "City", name: "city", type: "text", required: true, maxLength: 50, pattern: ".*"},
-    { id: 6, label: "Zipcode", name: "zipcode", type: "text", required: true, maxLength: 10, pattern: ".*"},
-    { id: 7, label: "Phone", name: "phone", type: "text", required: true, maxLength: 17, pattern: ".*"},
-    { id: 8, label: "E-Mail", type: "email", name: "email", required: false, maxLength: 100},
+    { id: 1, label: "Date", type: "text", name:"date", required: true, maxLength: 10, pattern: ".*"},
+    { id: 2, label: "First name", type: "text", name: "first_name", required: true, maxLength: 20, pattern: ".*"},
+    { id: 3, label: "Last name", type: "text", name: "last_name", required: true, maxLength: 20, pattern: ".*"},
+    { id: 4, label: "Date of birth (DD.MM.YYYY)", type: "text", name: "birthday", required: true, maxLength: 10, pattern: "([0-2][0-9]|3[01])\.[0-1][0-9]\.[0-9]{4}",  title:"DD.MM.YYYY"},
+    { id: 5, label: "Address", name: "address", type: "text", required: true, maxLength: 50, pattern: ".*"},
+    { id: 6, label: "City", name: "city", type: "text", required: true, maxLength: 50, pattern: ".*"},
+    { id: 7, label: "Zipcode", name: "zipcode", type: "text", required: true, maxLength: 10, pattern: ".*"},
+    { id: 8, label: "Phone", name: "phone", type: "text", required: true, maxLength: 17, pattern: ".*"},
+    { id: 9, label: "E-Mail", type: "email", name: "email", required: false, maxLength: 100},
   ];
   const textarea = [
     { id: 10, label: "Work experience", name: "experience", required: true, maxLength: 300 },
@@ -55,6 +50,25 @@ function Resume() {
     { id: 12, label: "Skills", name: "skills", required: true, maxLength: 300 },
     { id: 13, label: "Interests", name: "interests", required: true, maxLength: 300 }
   ];
+
+  useEffect(() => {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');  // Ensure two digits for day
+    const month = String(today.getMonth() + 1).padStart(2, '0');  // Ensure two digits for month (months are 0-indexed)
+    const year = today.getFullYear();
+    const formattedDate = `${day}.${month}.${year}`;  // Format: DD.MM.YYYY
+    setInputValue(prev => ({ ...prev, date: formattedDate }));
+  }, []);
+
+  useEffect(() => {
+    if (user){
+      setInputValue(prev => {
+          console.log("Previous state (prev):", prev);  // Print prev before updating
+          return { ...prev, email: user.email };
+        });
+    }
+  }, [user]);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -94,17 +108,6 @@ function Resume() {
         <form onSubmit={handleSubmit} className="pers_info">
           <div className="pers_info_input d-md-flex col-12 col-lg-10 col-xl-8 justify-content-center align-items-start">
             <div className="pers_info_field col-12 col-md-6">
-              <div className="input-form">
-                <input
-                  className="input col-6"
-                  label="Date"
-                  type="text"
-                  name="date"
-                  value={inputValue.date}
-                  required
-                  onChange={handleChange}
-                />
-              </div>
               {fields.map(field => (
                 <div key={field.id} className="input-form">
                   <input

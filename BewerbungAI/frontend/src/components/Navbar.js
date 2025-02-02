@@ -24,9 +24,12 @@ function Navbar(){
 };
   const handleLogout = () => {
     fetchCSRFToken();
-    kc.logout({
-      redirectUri: "http://localhost:8000", // Optional: Redirect the user to a specific page after logout
-    });
+      kc.logout({
+        redirectUri: "http://localhost:8000/"
+      });
+      localStorage.removeItem('keycloakToken');
+      sessionStorage.clear();
+      window.location.reload();
   };
     return(
     <nav className="navbar navbar-expand-lg col-12">
