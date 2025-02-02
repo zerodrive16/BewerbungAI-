@@ -295,7 +295,7 @@ def export_users_from_keycloak(request):
                 email = user.get('email', '')
                 first_name = user.get('firstName', '')
                 last_name = user.get('lastName', '')
-
+                print(f"email:{email}")
                 # Save or update the user profile in the database
                 UserProfile.objects.update_or_create(
                     keycloak_id=keycloak_id,
@@ -306,6 +306,7 @@ def export_users_from_keycloak(request):
                         'last_name': last_name,
                     }
                 )
+
 
             return JsonResponse({"status": "success", "message": "Users exported successfully."})
 
