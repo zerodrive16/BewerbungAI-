@@ -6,6 +6,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 from WebApplication.Text_Preprocessing.openai_request import openAIRequest
 
+
 class TestOpenAIRequest(unittest.TestCase):
 
     @patch("WebApplication.Text_Preprocessing.openai_request.openai.ChatCompletion.create")
