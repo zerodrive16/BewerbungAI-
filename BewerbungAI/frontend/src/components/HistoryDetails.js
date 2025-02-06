@@ -38,9 +38,9 @@ function HistoryDetails({ id, date, companyName, jobFieldName }) {
   }, []);
   console.log(jsonData);
   return (
-    <div>
+    <div className="box">
       <Navbar />
-      <div className="history_details d-flex flex-column align-items-center p-4">
+      <div className="main history_details d-flex flex-column align-items-center p-4">
         <h2 className="title">History Item Details</h2>
         <div className="history_text download_preview">Date: {jsonData.jobApplicationContent}</div>
       </div>
