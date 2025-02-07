@@ -20,7 +20,7 @@ import axios from 'axios';
 import { UserContext } from './components/UserContext';
 
 const initOptions = {
-  url: 'http://localhost:8080/',
+  url: 'http://127.0.0.1:8080/',
   realm: 'myrealm',
   clientId: 'myclient',
 };
@@ -34,7 +34,7 @@ const fetchCSRFToken = async () => {
     return match[2]; // Return the CSRF token from the cookie
   }
   try {
-    const response = await axios.get('http://localhost:8000/get-csrf-token', {
+    const response = await axios.get('http://127.0.0.1:8000/get-csrf-token', {
       withCredentials: true,  // Make sure credentials are included (cookies)
     });
     const csrfToken = response.data.csrfToken;
@@ -68,7 +68,7 @@ export default function App() {
       checkLoginIframe: false,
       pkceMethod: 'S256',
       prompt: 'login', // Force login on each session start
-      redirectUri: "http://localhost:8000/home"
+      //redirectUri: "http://localhost:8000/home"
     })
       .then((auth) => {
         if (!auth) {
