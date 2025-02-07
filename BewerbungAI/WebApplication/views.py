@@ -54,6 +54,7 @@ def user_profile_api(request):
 
 
 # CSRF Token request
+@csrf_exempt
 def get_csrf_token(request):
     csrf_token = get_token(request)
     return JsonResponse({'csrfToken': csrf_token})
@@ -244,18 +245,17 @@ def download(request):
     # Fallback for unsupported methods
     return Response({"error": "Method not allowed"}, status=405)
 
-@csrf_exempt  # Use with caution; it's better to handle CSRF tokens properly
+@csrf_exempt
 def export_users_from_keycloak(request):
     global current_email
-    if request.method == 'POST':  # Only allow POST requests
+    if request.method == 'POST':
         try:
-            # Step 1: Fetch Access Token from Keycloak
             token_url = "http://localhost:8080/realms/master/protocol/openid-connect/token"
             client_id = "admin-cli"
             client_secret = "tMM0oz1KOxuNkVkyGcZkRWW70RGNnITF"
             payload = {
-                "username": "admin",  # Replace with your Keycloak admin username
-                "password": "admin",  # Replace with your Keycloak admin password
+                "username": "admin",
+                "password": "admin",
                 "grant_type": "password",
                 "client_id": client_id,
                 "client_secret": client_secret,
@@ -275,7 +275,6 @@ def export_users_from_keycloak(request):
                     status=500
                 )
 
-            # Step 2: Fetch Users from Keycloak
             users_url = "http://localhost:8080/admin/realms/myrealm/users"
             headers = {
                 "Authorization": f"Bearer {access_token}",
@@ -291,7 +290,6 @@ def export_users_from_keycloak(request):
 
             users = users_response.json()
             for user in users:
-                # Step 3: Extract the necessary fields for your UserProfile model
                 keycloak_id = user['id']
                 username = user.get('username')
                 email = user.get('email', '')
@@ -299,7 +297,7 @@ def export_users_from_keycloak(request):
                 last_name = user.get('lastName', '')
                 print(f"email:{email}")
                 current_email=email
-                # Save or update the user profile in the database
+
                 UserProfile.objects.update_or_create(
                     keycloak_id=keycloak_id,
                     defaults={
