@@ -96,7 +96,7 @@ def resume_api(request):
                 'skills': skills,
                 'interests': interests,
             }
-
+            print(resume_data)
             return JsonResponse({'message': 'POST request received', 'data': resume_data}, status=200)
         except Exception as e:
             return JsonResponse({'error': 'Invalid data', 'details': str(e)}, status=400)
