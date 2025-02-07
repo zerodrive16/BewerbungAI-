@@ -61,6 +61,7 @@ def get_csrf_token(request):
 
 
 # Retrieval of personal information in endpoint /resume/api
+@csrf_exempt
 def resume_api(request):
     global resume_data
 
