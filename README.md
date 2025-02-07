@@ -47,17 +47,8 @@ node -v
 npm -v
 ```
 
-### 6. Installing packages
-Navigate to the project folder to access the requirements.txt file
-```bash
-cd /path/to/your/BewerbungAI/BewerbungAI
-```
-After this the folder requirements.txt is accessible which can be downloaded 
-```bash
-pip install -r requirements.txt
-```
 
-### 7. Docker Setup 
+### 6. Docker Setup 
 Set up docker first and enable running 
 Username: Admin
 Password: Admin
@@ -68,9 +59,24 @@ realm.json
 docker run -p 8080:8080 -e KC_BOOTSTRAP_ADMIN_USERNAME=admin -e KC_BOOTSTRAP_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:26.0.7 start-dev
 ```
 
-Now create a new Terminal and run this command
+Now create a new Terminal and run this command (Windows)
 ```bash
 java -jar keycloak-config-cli-26.0.5.jar \ --keycloak.url=http://localhost:8080/ \ --keycloak.user=admin \ --keycloak.password=admin \ --import.files.locations=./realm.json
+```
+
+Run this command on MacOS
+```bash
+java -jar keycloak-config-cli-26.0.5.jar --keycloak.url=http://localhost:8080/ --keycloak.user=admin --keycloak.password=admin --import.files.locations=./realm.json
+```
+
+### 7. Installing packages
+Navigate to the project folder to access the requirements.txt file
+```bash
+cd /path/to/your/BewerbungAI/BewerbungAI
+```
+After this the folder requirements.txt is accessible which can be downloaded 
+```bash
+pip install -r requirements.txt
 ```
 
 ### 8. Starting the program 
