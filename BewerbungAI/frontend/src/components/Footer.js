@@ -11,10 +11,6 @@ function Footer(){
                 <li className="nav-item">
                      <Link to="/" className="nav-link">BewerbungAI</Link>
                 </li>
-                <li className="nav-item"> | </li>
-                <li className="nav-item">
-                     <Link to="/aboutUs" className="nav-link"> About us</Link>
-                </li>
             </ul>
         </div>
     )

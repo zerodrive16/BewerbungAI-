@@ -22,3 +22,10 @@
 .header-nav{
     padding: 0;
 }
+
+.navbar-toggler-icon {
+    filter: brightness(0) invert(1);
+}
+.navbar-toggler{
+    border-color: #fff;
+}

@@ -1,7 +1,6 @@
 import React, { useState, useEffect,  } from 'react';
 import Navbar from "./Navbar.js";
 import Button from "./Button.js";
-import InputForm from "./InputForm.js";
 import Footer from "./Footer.js";
 import "./style/Application.css";
 import { useNavigate } from "react-router";
