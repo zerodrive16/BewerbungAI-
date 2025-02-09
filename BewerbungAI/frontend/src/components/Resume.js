@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import InputForm from "./InputForm.js";
 import Navbar from "./Navbar.js";
 import Footer from "./Footer.js";
 import Button from "./Button.js";

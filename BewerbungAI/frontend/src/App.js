@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate, Link, useLocation } from 'react-router-dom';
 import Home from "./components/Home.js";
-import AboutUs from "./components/AboutUs.js";
 import Resume from "./components/Resume.js";
 import Application from "./components/Application.js";
-import Output from "./components/Output.js";
 import Result from "./components/Result.js";
 import History from "./components/History.js";
 import HistoryDetails from "./components/HistoryDetails.js";
@@ -142,8 +140,6 @@ export default function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/resume" element={<Resume />} />
             <Route path="/application" element={<Application />} />
-            <Route path="/aboutUs" element={<AboutUs />} />
-            <Route path="/output" element={<Output />} />
             <Route path="/" element={<Navigate to="/home" />} /> {/* Redirect to Home */}
             <Route path="/result" element={<Result />} />
             <Route path="/history" element={<History />} />

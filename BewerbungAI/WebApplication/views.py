@@ -244,7 +244,7 @@ def download(request):
     # Fallback for unsupported methods
     return Response({"error": "Method not allowed"}, status=405)
 
-@csrf_exempt  # Use with caution; it's better to handle CSRF tokens properly
+#@csrf_exempt  # Use with caution; it's better to handle CSRF tokens properly
 def export_users_from_keycloak(request):
     global current_email
     if request.method == 'POST':  # Only allow POST requests
