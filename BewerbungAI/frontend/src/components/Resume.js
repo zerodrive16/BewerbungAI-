@@ -41,7 +41,7 @@ function Resume() {
     { id: 6, label: "City", name: "city", type: "text", required: true, maxLength: 50, pattern: ".*"},
     { id: 7, label: "Zipcode", name: "zipcode", type: "text", required: true, maxLength: 10, pattern: ".*"},
     { id: 8, label: "Phone", name: "phone", type: "text", required: true, maxLength: 17, pattern: ".*"},
-    { id: 9, label: "E-Mail", type: "email", name: "email", required: false, maxLength: 100},
+    { id: 9, label: "E-Mail", type: "email", name: "email", required: true, maxLength: 100},
   ];
   const textarea = [
     { id: 10, label: "Work experience", name: "experience", required: true, maxLength: 300 },
