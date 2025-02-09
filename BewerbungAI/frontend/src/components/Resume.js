@@ -121,6 +121,8 @@ function Resume() {
                     onChange={handleChange}
                     pattern={field.pattern}
                     title={field.title}
+                    {...(field.name === "email" ? { readOnly: true } : {})}
+
                   />
                   {errors[field.name] && <span className="error">{errors[field.name]}</span>}
                 </div>
