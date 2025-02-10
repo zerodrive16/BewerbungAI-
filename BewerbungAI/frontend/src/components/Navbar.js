@@ -23,9 +23,10 @@ function Navbar(){
   }
 };
   const handleLogout = () => {
+      console.log("Hello World")
     fetchCSRFToken();
       kc.logout({
-        redirectUri: "http://localhost:8000/"
+        redirectUri: "https://127.0.0.1:8000/"
       });
       localStorage.removeItem('keycloakToken');
       sessionStorage.clear();
