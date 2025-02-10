@@ -26,7 +26,7 @@ function Navbar(){
       console.log("Hello World")
     fetchCSRFToken();
       kc.logout({
-        redirectUri: "https://127.0.0.1:8000/"
+        redirectUri: "http://127.0.0.1:8000/"
       });
       localStorage.removeItem('keycloakToken');
       sessionStorage.clear();
