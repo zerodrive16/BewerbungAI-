@@ -3,6 +3,9 @@ A tool for creating personalized AI-based job application letters
 
 ---
 ## 📦 Installation:
+It is important to have Python Version 3.12 or lower
+
+
 Follow these steps to set up the application on your Mac 
 
 --- 
